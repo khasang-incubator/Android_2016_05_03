@@ -1,4 +1,4 @@
-## Application name
+﻿## Application name
 - [ ] Drugs'n'Pills
 - [ ] Pills'n'Drugs
 - [ ] Pills'Time
@@ -15,3 +15,8 @@
 - [ ] Health Care
 - [ ] Health Helper
 - [ ] Mrs. Pills
+- [ ] Medication reminder
+- [ ] reminder taking pills
+- [ ] never forget
+- [ ] pills hacker
+- [ ] New pills
