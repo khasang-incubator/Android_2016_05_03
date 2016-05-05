@@ -2,3 +2,10 @@
 - [ ] smart nurse
 - [ ] pills reminder
 - [ ] health helper
+- [ ] Doctor Pills
+- [ ] All My Pills
+- [ ] Mr. Pills
+- [ ] Pills Helper
+- [ ] Health Care
+- [ ] Health Helper
+- [ ] Mrs. Pills
