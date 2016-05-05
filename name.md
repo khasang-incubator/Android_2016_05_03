@@ -13,7 +13,6 @@
 - [ ] Mr. Pills
 - [ ] Pills Helper
 - [ ] Health Care
-- [ ] Health Helper
 - [ ] Mrs. Pills
 - [ ] Medication reminder
 - [ ] reminder taking pills
