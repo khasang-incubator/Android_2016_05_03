@@ -13,41 +13,37 @@ public class PillsDBHelper extends SQLiteOpenHelper{
 
     private static final String SQL_CREATE_TABLE_ATTR =
             "CREATE TABLE " + Attr.TABLE_NAME + " (" +
-                    Attr.COLUMN_ATTR_ID + " INT PRIMARY KEY," +
+                    Attr._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     Attr.COLUMN_NAME + " TEXT NOT NULL" +
             " )";
 
     private static final String SQL_CREATE_TABLE_TYPE =
             "CREATE TABLE " + Type.TABLE_NAME + " (" +
-                    Type.COLUMN_TYPE_ID + " INT PRIMARY KEY," +
+                    Type._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     Type.COLUMN_NAME + " TEXT NOT NULL" +
             " )";
 
     private static final String SQL_CREATE_TABLE_ENTITY =
             "CREATE TABLE " + Entity.TABLE_NAME + " (" +
-                    Entity.COLUMN_ENTITY_ID + " INT PRIMARY KEY," +
-                    Entity.COLUMN_TYPE_ID + " INT REFERENCES " + Type.TABLE_NAME + " (" + Type.COLUMN_TYPE_ID + ") " +
-                    "                                                 ON DELETE CASCADE ON UPDATE CASCADE NOT NULL," +
+                    Entity._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    Entity.COLUMN_TYPE_ID + " INTEGER REFERENCES " + Type.TABLE_NAME + " (" + Type._ID + ") ON DELETE CASCADE ON UPDATE CASCADE NOT NULL," +
                     Entity.COLUMN_NAME + " TEXT NOT NULL" +
             " )";
 
     private static final String SQL_CREATE_TABLE_VAL =
             "CREATE TABLE " + Val.TABLE_NAME + " (" +
-                    Val.COLUMN_ATTR_ID + " INT REFERENCES " + Attr.TABLE_NAME + " (" + Attr.COLUMN_ATTR_ID + ") " +
-                    "                                              ON DELETE CASCADE ON UPDATE CASCADE NOT NULL," +
-                    Val.COLUMN_ENTITY_ID + " INT REFERENCES " + Entity.TABLE_NAME + " (" + Entity.COLUMN_ENTITY_ID + ") " +
-                    "                                              ON DELETE CASCADE ON UPDATE CASCADE NOT NULL," +
+                    Val._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    Val.COLUMN_ATTR_ID + " INTEGER REFERENCES " + Attr.TABLE_NAME + " (" + Attr._ID + ") ON DELETE CASCADE ON UPDATE CASCADE NOT NULL," +
+                    Val.COLUMN_ENTITY_ID + " INTEGER REFERENCES " + Entity.TABLE_NAME + " (" + Entity._ID + ") ON DELETE CASCADE ON UPDATE CASCADE NOT NULL," +
                     Val.COLUMN_VALUE + " TEXT" +
             " )";
 
     private static final String SQL_CREATE_TABLE_REF =
             "CREATE TABLE " + Ref.TABLE_NAME + " (" +
-                    Ref.COLUMN_ATTR_ID + " INT REFERENCES " + Attr.TABLE_NAME + " (" + Attr.COLUMN_ATTR_ID + ") " +
-                    "                                              ON DELETE CASCADE ON UPDATE CASCADE NOT NULL," +
-                    Ref.COLUMN_ENTITY_ID + " INT REFERENCES " + Entity.TABLE_NAME + " (" + Entity.COLUMN_ENTITY_ID + ") " +
-                    "                                              ON DELETE CASCADE ON UPDATE CASCADE NOT NULL," +
-                    Ref.REF_ID + " INT REFERENCES " + Entity.TABLE_NAME + " (" + Entity.COLUMN_ENTITY_ID + ") " +
-                    "                                              ON DELETE CASCADE ON UPDATE CASCADE NOT NULL" +
+                    Ref._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    Ref.COLUMN_ATTR_ID + " INTEGER REFERENCES " + Attr.TABLE_NAME + " (" + Attr._ID + ") ON DELETE CASCADE ON UPDATE CASCADE NOT NULL," +
+                    Ref.COLUMN_ENTITY_ID + " INTEGER REFERENCES " + Entity.TABLE_NAME + " (" + Entity._ID + ") ON DELETE CASCADE ON UPDATE CASCADE NOT NULL," +
+                    Ref.REF_ID + " INTEGER REFERENCES " + Entity.TABLE_NAME + " (" + Entity._ID + ")  ON DELETE CASCADE ON UPDATE CASCADE NOT NULL" +
             " )";
 
     private static final String SQL_CREATE_INDEX_ENTITY_TYPE_ID =
