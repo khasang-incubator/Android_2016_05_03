@@ -8,6 +8,23 @@ import static com.khasang.pillshelper.db.PillsDBContract.*;
 
 public class PillsDBHelper extends SQLiteOpenHelper{
 
+    private static volatile PillsDBHelper instance = null;
+
+    private PillsDBHelper(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
+
+    public static PillsDBHelper getInstance(Context context){
+        if(instance == null){
+            synchronized (PillsDBHelper.class){
+                if(instance == null){
+                    return new PillsDBHelper(context.getApplicationContext());
+                }
+            }
+        }
+        return instance;
+    }
+
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "PillsDB.db";
 
@@ -55,9 +72,6 @@ public class PillsDBHelper extends SQLiteOpenHelper{
     private static final String SQL_CREATE_INDEX_VAL_ENTITY_ID_ATTR_ID =
             "CREATE INDEX val_entity_id_attr_id ON " + Val.TABLE_NAME +" (" + Val.COLUMN_ENTITY_ID + ", " + Val.COLUMN_ATTR_ID + ")";
 
-    public PillsDBHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
-    }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
