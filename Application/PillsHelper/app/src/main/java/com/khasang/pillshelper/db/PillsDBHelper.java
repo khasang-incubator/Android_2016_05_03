@@ -46,11 +46,8 @@ public class PillsDBHelper extends SQLiteOpenHelper{
                     Ref.REF_ID + " INTEGER REFERENCES " + Entity.TABLE_NAME + " (" + Entity._ID + ")  ON DELETE CASCADE ON UPDATE CASCADE NOT NULL" +
             " )";
 
-    private static final String SQL_CREATE_INDEX_ENTITY_TYPE_ID =
-            "CREATE INDEX entity_type_id ON " + Entity.TABLE_NAME + " (" + Entity.COLUMN_TYPE_ID + ")";
-
-    private static final String SQL_CREATE_INDEX_ENTITY_NAME =
-            "CREATE INDEX entity_name ON " + Entity.TABLE_NAME + " (" + Entity.COLUMN_NAME + ")";
+    private static final String SQL_CREATE_INDEX_ENTITY_TYPE_ID_NAME =
+            "CREATE INDEX entity_type_id_name ON " + Entity.TABLE_NAME + " (" + Entity.COLUMN_TYPE_ID + ", " + Entity.COLUMN_NAME + ")";
 
     private static final String SQL_CREATE_INDEX_REF_ENTITY_ID_ATTR_ID =
             "CREATE INDEX ref_entity_id_attr_id ON " + Ref.TABLE_NAME +" (" + Ref.COLUMN_ENTITY_ID + ", " + Ref.COLUMN_ATTR_ID + ")";
@@ -69,8 +66,7 @@ public class PillsDBHelper extends SQLiteOpenHelper{
         db.execSQL(SQL_CREATE_TABLE_ENTITY);
         db.execSQL(SQL_CREATE_TABLE_VAL);
         db.execSQL(SQL_CREATE_TABLE_REF);
-        db.execSQL(SQL_CREATE_INDEX_ENTITY_TYPE_ID);
-        db.execSQL(SQL_CREATE_INDEX_ENTITY_NAME);
+        db.execSQL(SQL_CREATE_INDEX_ENTITY_TYPE_ID_NAME);
         db.execSQL(SQL_CREATE_INDEX_REF_ENTITY_ID_ATTR_ID);
         db.execSQL(SQL_CREATE_INDEX_VAL_ENTITY_ID_ATTR_ID);
     }
