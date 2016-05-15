@@ -1,8 +1,21 @@
-## Application name
+﻿## Application name
 - [ ] Drugs'n'Pills
 - [ ] Pills'n'Drugs
 - [ ] Pills'Time
 - [ ] Drugs
 - [ ] Health Drugs
 - [ ] Время таблеток не пришло
-
+- [ ] smart nurse
+- [ ] pills reminder
+- [ ] health helper
+- [ ] Doctor Pills
+- [ ] All My Pills
+- [ ] Mr. Pills
+- [ ] Pills Helper
+- [ ] Health Care
+- [ ] Mrs. Pills
+- [ ] Medication reminder
+- [ ] reminder taking pills
+- [ ] never forget
+- [ ] pills hacker
+- [ ] New pills
