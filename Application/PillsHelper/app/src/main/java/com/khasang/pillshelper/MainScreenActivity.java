@@ -1,27 +1,39 @@
 package com.khasang.pillshelper;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import com.khasang.pillshelper.db.PillsDBHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
 public class MainScreenActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private DrugAdapter adapter;
+    private RecyclerView recyclerView;
+
+    private ArrayList<Drug> drugs = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +60,11 @@ public class MainScreenActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
+        adapter = new DrugAdapter(drugs);
+        recyclerView.setAdapter(adapter);
+
         initDB();
     }
 
@@ -59,6 +76,7 @@ public class MainScreenActivity extends AppCompatActivity
                             @Override
                             public void onHelperAnswerReceived(int code, Boolean response) {
                                 switch (code) {
+                                    // TODO: 16.05.16 прописать поведение после инициализации БД
                                     case PillsDBHelper.RESULT_OK:
                                         if (response.booleanValue()) {
                                             Log.i("DRUGS", "Initializing Success");
@@ -75,7 +93,7 @@ public class MainScreenActivity extends AppCompatActivity
     }
 
     private void showAllDrugs() {
-        final ArrayList<Drug> drugs = new ArrayList<>();
+        drugs = new ArrayList<>();
         PillsDBHelper.getInstance(this)
                 .runRequestAsync(
                         PillsDBHelper.GET_ALL_DRUGS,
@@ -84,11 +102,13 @@ public class MainScreenActivity extends AppCompatActivity
                             public void onHelperAnswerReceived(int code, ArrayList<Drug> response) {
                                 switch (code) {
                                     case PillsDBHelper.RESULT_OK:
+                                        ArrayList<Drug> localDrags = ((DrugAdapter) recyclerView.getAdapter()).mDrugs;
+                                        localDrags.clear();
                                         for (Drug drug : response) {
-                                            drugs.add(drug);
+                                            localDrags.add(drug);
                                         }
 
-                                        Log.i("DRUGS", Arrays.toString(drugs.toArray()));
+                                        adapter.notifyDataSetChanged();
 
                                         break;
                                     default:
@@ -146,7 +166,7 @@ public class MainScreenActivity extends AppCompatActivity
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
-
+            showAllDrugs();
         } else if (id == R.id.nav_send) {
 
         }
@@ -154,5 +174,44 @@ public class MainScreenActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private class DrugHolder extends RecyclerView.ViewHolder {
+        TextView textView;
+
+        public DrugHolder(View itemView) {
+            super(itemView);
+            textView = (TextView) itemView;
+        }
+
+        public void bindView(Drug drug) {
+            textView.setText(drug.toString());
+        }
+    }
+
+    private class DrugAdapter extends RecyclerView.Adapter<DrugHolder> {
+        private ArrayList<Drug> mDrugs;
+
+        public DrugAdapter(ArrayList<Drug> drugs) {
+            mDrugs = drugs;
+        }
+
+        @Override
+        public DrugHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            LayoutInflater inflater = LayoutInflater.from(MainScreenActivity.this);
+            View view = inflater.inflate(android.R.layout.simple_list_item_1, parent, false);
+
+            return new DrugHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(DrugHolder holder, int position) {
+            holder.bindView(mDrugs.get(position));
+        }
+
+        @Override
+        public int getItemCount() {
+            return mDrugs.size();
+        }
     }
 }

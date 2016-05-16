@@ -30,6 +30,6 @@ public class Drug {
 
     @Override
     public String toString() {
-        return name;
+        return String.format("%5d: %s", id, name);
     }
 }
