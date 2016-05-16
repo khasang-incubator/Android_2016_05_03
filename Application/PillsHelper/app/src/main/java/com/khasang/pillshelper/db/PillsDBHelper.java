@@ -4,7 +4,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.khasang.pillshelper.db.model.Drug;
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class PillsDBHelper extends SQLiteAssetHelper {
 
@@ -28,6 +32,26 @@ public class PillsDBHelper extends SQLiteAssetHelper {
 
     private PillsDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
+
+    private Collection<Drug> findDrugsByName(String name, int limit){
+        Collection<Drug> result = new ArrayList<>();
+        SQLiteDatabase db = getReadableDatabase();
+        String[] columns = {"id"};
+        String[] args = {name};
+        Cursor cursor = db.query(false, "drug", columns, "name like %?%", args, null, null, null, String.valueOf(limit));
+        if(cursor != null){
+            cursor.moveToFirst();
+            int idIndex = cursor.getColumnIndex("id");
+            do{
+                int drugID = cursor.getInt(idIndex);
+                result.add(new Drug(drugID));
+            }
+            while (cursor.moveToNext());
+            cursor.close();
+        }
+        db.close();
+        return result;
     }
 
     private String selectDrugAttr(String sql, int id, String attr){
