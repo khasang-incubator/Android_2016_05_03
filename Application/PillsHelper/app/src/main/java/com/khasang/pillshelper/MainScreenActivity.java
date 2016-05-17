@@ -9,7 +9,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -18,14 +17,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.khasang.pillshelper.db.PillsDBHelper;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 
 public class MainScreenActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -46,8 +44,10 @@ public class MainScreenActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Filter by criteria \"алка\"", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+
+                adapter.getFilter().filter("алка");
             }
         });
 
@@ -102,10 +102,10 @@ public class MainScreenActivity extends AppCompatActivity
                             public void onHelperAnswerReceived(int code, ArrayList<Drug> response) {
                                 switch (code) {
                                     case PillsDBHelper.RESULT_OK:
-                                        ArrayList<Drug> localDrags = ((DrugAdapter) recyclerView.getAdapter()).mDrugs;
-                                        localDrags.clear();
+                                        ArrayList<Drug> localDrugs = ((DrugAdapter) recyclerView.getAdapter()).mDrugs;
+                                        localDrugs.clear();
                                         for (Drug drug : response) {
-                                            localDrags.add(drug);
+                                            localDrugs.add(drug);
                                         }
 
                                         adapter.notifyDataSetChanged();
@@ -189,11 +189,13 @@ public class MainScreenActivity extends AppCompatActivity
         }
     }
 
-    private class DrugAdapter extends RecyclerView.Adapter<DrugHolder> {
+    private class DrugAdapter extends RecyclerView.Adapter<DrugHolder> implements Filterable {
         private ArrayList<Drug> mDrugs;
+        private ArrayList<Drug> originCollection;
 
         public DrugAdapter(ArrayList<Drug> drugs) {
             mDrugs = drugs;
+            originCollection = drugs;
         }
 
         @Override
@@ -212,6 +214,32 @@ public class MainScreenActivity extends AppCompatActivity
         @Override
         public int getItemCount() {
             return mDrugs.size();
+        }
+
+        @Override
+        public Filter getFilter() {
+            return new Filter() {
+                @Override
+                protected FilterResults performFiltering(CharSequence constraint) {
+                    ArrayList<Drug> filteredDrugs = new ArrayList<>();
+                    for (Drug drug : originCollection) {
+                        if (drug.getName().toLowerCase().contains(constraint)) {
+                            filteredDrugs.add(drug);
+                        }
+                    }
+
+                    FilterResults results = new FilterResults();
+                    results.values = filteredDrugs;
+
+                    return results;
+                }
+
+                @Override
+                protected void publishResults(CharSequence constraint, FilterResults results) {
+                    mDrugs = (ArrayList<Drug>) results.values;
+                    notifyDataSetChanged();
+                }
+            };
         }
     }
 }

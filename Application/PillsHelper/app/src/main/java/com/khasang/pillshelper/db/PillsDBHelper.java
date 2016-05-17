@@ -4,21 +4,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
-import android.util.Log;
-import android.widget.TextView;
 
 import com.khasang.pillshelper.Drug;
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.FutureTask;
 
 public class PillsDBHelper extends SQLiteAssetHelper {
     public static final int RESULT_OK = 1;
@@ -77,6 +67,18 @@ public class PillsDBHelper extends SQLiteAssetHelper {
         return drugs;
     }
 
+    /**
+     * Обобщенный метод для обращения к базе данных
+     * @param request тип запроса к БД
+     * @param listener обработчик ответа
+     * @param <T> тип возвращаемого значения
+     *
+     * <p><b>Коды запросов и типы ответов:</b>
+     *           <ul>
+     *           <li>{@linkplain #INITIALIZE_DB} -> Boolean</li>
+     *           <li>{@linkplain #GET_ALL_DRUGS} -> ArrayList&lt;Drug&gt;</li>
+     *           </ul>
+     */
     public <T> void runRequestAsync(int request, final Listener<T> listener) {
 
         new DataFetcher<T>(listener).execute(request);
