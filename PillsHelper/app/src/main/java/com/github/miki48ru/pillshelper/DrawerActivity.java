@@ -1,5 +1,7 @@
 package com.github.miki48ru.pillshelper;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,22 +15,38 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class NavigationActivity extends AppCompatActivity
+import com.github.miki48ru.pillshelper.fragments.AllCourseFragment;
+import com.github.miki48ru.pillshelper.fragments.CurrentCourseFragment;
+import com.github.miki48ru.pillshelper.fragments.MainFragment;
+import com.github.miki48ru.pillshelper.fragments.NewCourseFragment;
+import com.github.miki48ru.pillshelper.fragments.PillsFragment;
+
+public class DrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+
+    NewCourseFragment frNewCourse;
+    AllCourseFragment frAllCorse;
+    CurrentCourseFragment frCurrentCourse;
+    MainFragment frMain;
+    PillsFragment frAllPills;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_navigation);
+        setContentView(R.layout.activity_drawer);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setImageResource(R.drawable.);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+
             }
         });
 
@@ -40,6 +58,13 @@ public class NavigationActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        frNewCourse = new NewCourseFragment();
+        frAllCorse = new AllCourseFragment();
+        frCurrentCourse = new CurrentCourseFragment();
+        frMain = new MainFragment();
+        frAllPills = new PillsFragment();
+
     }
 
     @Override
@@ -55,7 +80,7 @@ public class NavigationActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.navigation, menu);
+        getMenuInflater().inflate(R.menu.drawer, menu);
         return true;
     }
 
@@ -80,19 +105,26 @@ public class NavigationActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
 
-        } else if (id == R.id.nav_slideshow) {
+        if (id == R.id.new_course) {
+            ft.replace(R.id.container, frNewCourse);
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.all_course) {
+            ft.replace(R.id.container, frAllCorse);
+
+        } else if (id == R.id.current_course) {
+            ft.replace(R.id.container, frCurrentCourse);
+
+        } else if (id == R.id.all_pills) {
+            ft.replace(R.id.container, frAllCorse);
 
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
 
         }
+        ft.commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
