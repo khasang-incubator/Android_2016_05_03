@@ -1,12 +1,10 @@
-package com.github.miki48ru.pillshelper;
+package com.khasang.pillshelper;
 
-import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -14,12 +12,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
-import com.github.miki48ru.pillshelper.fragments.AllCourseFragment;
-import com.github.miki48ru.pillshelper.fragments.CurrentCourseFragment;
-import com.github.miki48ru.pillshelper.fragments.MainFragment;
-import com.github.miki48ru.pillshelper.fragments.NewCourseFragment;
-import com.github.miki48ru.pillshelper.fragments.PillsFragment;
+import com.khasang.pillshelper.fragments.AllCourseFragment;
+import com.khasang.pillshelper.fragments.CurrentCourseFragment;
+import com.khasang.pillshelper.fragments.MainFragment;
+import com.khasang.pillshelper.fragments.NewCourseFragment;
+import com.khasang.pillshelper.fragments.PillsFragment;
 
 public class DrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {

@@ -1,4 +1,4 @@
-package com.github.miki48ru.pillshelper;
+package com.khasang.pillshelper;
 
 import android.app.Activity;
 
@@ -18,10 +18,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ShareActionProvider;
 
-import com.github.miki48ru.pillshelper.fragments.AllCourseFragment;
-import com.github.miki48ru.pillshelper.fragments.CurrentCourseFragment;
-import com.github.miki48ru.pillshelper.fragments.MainFragment;
-import com.github.miki48ru.pillshelper.fragments.NewCourseFragment;
+import com.khasang.pillshelper.fragments.AllCourseFragment;
+import com.khasang.pillshelper.fragments.CurrentCourseFragment;
+import com.khasang.pillshelper.fragments.MainFragment;
+import com.khasang.pillshelper.fragments.NewCourseFragment;
 
 public class MainActivity extends Activity {
 

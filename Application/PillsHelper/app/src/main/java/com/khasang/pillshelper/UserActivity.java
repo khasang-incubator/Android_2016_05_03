@@ -1,4 +1,4 @@
-package com.github.miki48ru.pillshelper;
+package com.khasang.pillshelper;
 
 import android.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
