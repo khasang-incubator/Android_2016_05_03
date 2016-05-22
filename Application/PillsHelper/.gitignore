@@ -34,3 +34,6 @@ proguard/
 
 # Log Files
 *.log
+
+# Database Files
+*.db
