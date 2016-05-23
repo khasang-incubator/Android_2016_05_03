@@ -5,9 +5,73 @@
     tools:context=".fragments.MainFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/title_fragment" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:layout_height="100dp"
+            android:layout_width="match_parent"
+            android:background="#2f588a"
+            android:id="@+id/background_one">
+
+        </RelativeLayout>
+
+        <RelativeLayout
+
+            android:layout_height="50dp"
+            android:layout_width="match_parent"
+            android:background="#699CFC"
+            android:id="@+id/background_two">
+
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:layout_marginTop="20dp"
+                android:text="@string/morning"
+                android:drawableLeft="@drawable/ic_bt_morning" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:layout_marginTop="20dp"
+                android:text="@string/sun"
+                android:drawableLeft="@drawable/ic_bt_sun"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:layout_marginTop="20dp"
+                android:text="@string/evening"
+                android:drawableLeft="@drawable/ic_bt_evening"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:layout_marginTop="20dp"
+                android:text="@string/night"
+                android:drawableLeft="@drawable/ic_bt_night"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
 
 </FrameLayout>

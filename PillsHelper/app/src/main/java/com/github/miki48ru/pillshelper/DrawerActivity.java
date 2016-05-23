@@ -1,6 +1,7 @@
 package com.github.miki48ru.pillshelper;
 
-import android.app.Fragment;
+
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -25,17 +26,33 @@ public class DrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
 
-    NewCourseFragment frNewCourse;
-    AllCourseFragment frAllCorse;
-    CurrentCourseFragment frCurrentCourse;
-    MainFragment frMain;
-    PillsFragment frAllPills;
+    private NewCourseFragment frNewCourse;
+    private AllCourseFragment frAllCorse;
+    private CurrentCourseFragment frCurrentCourse;
+    private MainFragment frMain;
+    private PillsFragment frAllPills;
+    private int currentPosition = 0;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
+
+        frNewCourse = new NewCourseFragment();
+        frAllCorse = new AllCourseFragment();
+        frCurrentCourse = new CurrentCourseFragment();
+        frMain = new MainFragment();
+        frAllPills = new PillsFragment();
+        if (savedInstanceState == null) {
+        frMain.setArguments(getIntent().getExtras());
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+               fragmentTransaction.add(R.id.container, frMain).commit();
+        }
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -59,11 +76,6 @@ public class DrawerActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        frNewCourse = new NewCourseFragment();
-        frAllCorse = new AllCourseFragment();
-        frCurrentCourse = new CurrentCourseFragment();
-        frMain = new MainFragment();
-        frAllPills = new PillsFragment();
 
     }
 
@@ -99,7 +111,7 @@ public class DrawerActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
+        @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
