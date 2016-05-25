@@ -144,4 +144,14 @@ public class DrawerActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    public void onClickMainFragment(View view) {
+
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.replace(R.id.container, frMain);
+        ft.commit();
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+
+    }
 }
