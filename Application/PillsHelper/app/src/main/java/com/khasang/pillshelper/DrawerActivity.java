@@ -131,7 +131,7 @@ public class DrawerActivity extends AppCompatActivity
             ft.replace(R.id.container, frCurrentCourse);
 
         } else if (id == R.id.all_pills) {
-            ft.replace(R.id.container, frAllCorse);
+            ft.replace(R.id.container, frAllPills);
 
         } else if (id == R.id.nav_share) {
 
