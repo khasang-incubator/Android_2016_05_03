@@ -38,14 +38,14 @@ public class PillsFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         PillsDBHelper.init(view.getContext());
-        mAdapter = new MyAdapter(PillsDBHelper.getInstance().getAllDrugs());
+        mAdapter = new DrugAdapter(PillsDBHelper.getInstance().getAllDrugs());
         mRecyclerView.setAdapter(mAdapter);
         return view;
     }
 }
 
-class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
-    private List<Drug> mDataset;
+class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.ViewHolder> {
+    private List<Drug> drugs;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView mTextView;
@@ -55,25 +55,24 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         }
     }
 
-    public MyAdapter(List<Drug> myDataset) {
-        mDataset = myDataset;
+    public DrugAdapter(List<Drug> drugs) {
+        this.drugs = drugs;
     }
 
     @Override
-    public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public DrugAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         TextView v = (TextView) LayoutInflater.from(parent.getContext()).inflate(android.R.layout.simple_list_item_1, parent, false);
-        ViewHolder vh = new ViewHolder(v);
-        return vh;
+        return new ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.mTextView.setText(mDataset.get(position).getName());
+        holder.mTextView.setText(drugs.get(position).getName());
 
     }
 
     @Override
     public int getItemCount() {
-        return mDataset.size();
+        return drugs.size();
     }
 }
