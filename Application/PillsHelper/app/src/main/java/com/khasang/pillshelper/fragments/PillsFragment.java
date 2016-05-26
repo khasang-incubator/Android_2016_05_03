@@ -4,9 +4,12 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.khasang.pillshelper.R;
@@ -24,7 +27,7 @@ public class PillsFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-
+    private EditText search_field;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,6 +42,25 @@ public class PillsFragment extends Fragment {
         PillsDBHelper.init(view.getContext());
         mAdapter = new DrugAdapter(PillsDBHelper.getInstance().getAllDrugs());
         mRecyclerView.setAdapter(mAdapter);
+
+        search_field = (EditText) view.findViewById(R.id.search_field);
+        search_field.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mAdapter = new DrugAdapter(PillsDBHelper.getInstance().findDrugsByName(String.valueOf(search_field.getText())));
+                mRecyclerView.setAdapter(mAdapter);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
         return view;
     }
 }
