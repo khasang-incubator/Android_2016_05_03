@@ -38,8 +38,7 @@ public class PillsFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         PillsDBHelper.init(view.getContext());
-        //mAdapter = new MyAdapter(PillsDBHelper.getInstance().getAllDrugs());
-        mAdapter = new MyAdapter(PillsDBHelper.getInstance().findDrugsByName("клостилбегит"));
+        mAdapter = new MyAdapter(PillsDBHelper.getInstance().getAllDrugs());
         mRecyclerView.setAdapter(mAdapter);
         return view;
     }
