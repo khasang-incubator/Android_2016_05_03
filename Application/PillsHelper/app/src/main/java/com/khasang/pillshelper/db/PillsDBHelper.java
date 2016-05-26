@@ -9,6 +9,7 @@ import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class PillsDBHelper extends SQLiteAssetHelper {
 
@@ -34,20 +35,34 @@ public class PillsDBHelper extends SQLiteAssetHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    private Collection<Drug> findDrugsByName(String name, int limit){
-        Collection<Drug> result = new ArrayList<>();
+    public List<Drug> findDrugsByName(String name){
+        List<Drug> result = new ArrayList<>();
         SQLiteDatabase db = getReadableDatabase();
-        String[] columns = {"id"};
-        String[] args = {name};
-        Cursor cursor = db.query(false, "drug", columns, "name like %?%", args, null, null, null, String.valueOf(limit));
+        String[] columns = {"_id"};
+        Cursor cursor = db.query(false, "drug", columns, "name like ?", new String[]{"%" + name + "%"}, null, null, null, null);
         if(cursor != null){
-            cursor.moveToFirst();
-            int idIndex = cursor.getColumnIndex("id");
-            do{
+            int idIndex = cursor.getColumnIndex("_id");
+            while (cursor.moveToNext()){
                 int drugID = cursor.getInt(idIndex);
                 result.add(new Drug(drugID));
             }
-            while (cursor.moveToNext());
+            cursor.close();
+        }
+        db.close();
+        return result;
+    }
+
+    public List<Drug> getAllDrugs(){
+        List<Drug> result = new ArrayList<>();
+        SQLiteDatabase db = getReadableDatabase();
+        String[] columns = {"_id"};
+        Cursor cursor = db.query(false, "drug", columns, null, null, null, null, null, null);
+        if(cursor != null){
+            int idIndex = cursor.getColumnIndex("_id");
+            while (cursor.moveToNext()){
+                int drugID = cursor.getInt(idIndex);
+                result.add(new Drug(drugID));
+            }
             cursor.close();
         }
         db.close();
