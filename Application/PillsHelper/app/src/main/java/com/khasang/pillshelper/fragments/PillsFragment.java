@@ -1,6 +1,5 @@
 package com.khasang.pillshelper.fragments;
 
-
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -47,11 +46,24 @@ public class PillsFragment extends Fragment {
 class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.ViewHolder> {
     private List<Drug> drugs;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public TextView mTextView;
+        private Drug item;
+
         public ViewHolder(TextView v) {
             super(v);
             mTextView = v;
+            mTextView.setOnClickListener(this);
+        }
+
+        public void setItem(Drug item){
+            this.item = item;
+            mTextView.setText(item.getName());
+        }
+
+        @Override
+        public void onClick(View v) {
+            //TODO launch drug activity to show detail info
         }
     }
 
@@ -61,14 +73,13 @@ class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.ViewHolder> {
 
     @Override
     public DrugAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        TextView v = (TextView) LayoutInflater.from(parent.getContext()).inflate(android.R.layout.simple_list_item_1, parent, false);
+        TextView v = (TextView) LayoutInflater.from(parent.getContext()).inflate(R.layout.drug_item, parent, false);
         return new ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.mTextView.setText(drugs.get(position).getName());
-
+        holder.setItem(drugs.get(position));
     }
 
     @Override
