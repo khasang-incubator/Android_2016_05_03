@@ -1,5 +1,9 @@
 package com.khasang.pillshelper;
 
+
+
+import android.app.FragmentManager;
+
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -24,17 +28,33 @@ public class DrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
 
-    NewCourseFragment frNewCourse;
-    AllCourseFragment frAllCorse;
-    CurrentCourseFragment frCurrentCourse;
-    MainFragment frMain;
-    PillsFragment frAllPills;
+    private NewCourseFragment frNewCourse;
+    private AllCourseFragment frAllCorse;
+    private CurrentCourseFragment frCurrentCourse;
+    private MainFragment frMain;
+    private PillsFragment frAllPills;
+    private int currentPosition = 0;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
+
+        frNewCourse = new NewCourseFragment();
+        frAllCorse = new AllCourseFragment();
+        frCurrentCourse = new CurrentCourseFragment();
+        frMain = new MainFragment();
+        frAllPills = new PillsFragment();
+        if (savedInstanceState == null) {
+        frMain.setArguments(getIntent().getExtras());
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+               fragmentTransaction.add(R.id.container, frMain).commit();
+        }
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -58,11 +78,6 @@ public class DrawerActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        frNewCourse = new NewCourseFragment();
-        frAllCorse = new AllCourseFragment();
-        frCurrentCourse = new CurrentCourseFragment();
-        frMain = new MainFragment();
-        frAllPills = new PillsFragment();
 
     }
 
@@ -98,7 +113,7 @@ public class DrawerActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
+        @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -116,7 +131,7 @@ public class DrawerActivity extends AppCompatActivity
             ft.replace(R.id.container, frCurrentCourse);
 
         } else if (id == R.id.all_pills) {
-            ft.replace(R.id.container, frAllCorse);
+            ft.replace(R.id.container, frAllPills);
 
         } else if (id == R.id.nav_share) {
 
@@ -128,5 +143,15 @@ public class DrawerActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void onClickMainFragment(View view) {
+
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.replace(R.id.container, frMain);
+        ft.commit();
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+
     }
 }
