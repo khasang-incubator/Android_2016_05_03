@@ -8,7 +8,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -27,6 +29,8 @@ public class DrugActivity extends AppCompatActivity {
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
+
+    public static final String DRUG_ID = "ID";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,15 +57,33 @@ public class DrugActivity extends AppCompatActivity {
     private void fillDrugDescription() {
         Drug drug;
         Intent income_intent = getIntent();
-        if (income_intent.hasExtra("ID")) {
-            int drug_id = income_intent.getIntExtra("ID", 0);
+        if (income_intent.hasExtra(DRUG_ID)) {
+            int drug_id = income_intent.getIntExtra(DRUG_ID, 0);
             drug = new Drug(drug_id);
-        } else if (income_intent.hasExtra("Drug")) {
-            //drug = income_intent.getBundleExtra("Drug");
         } else return;
 
-        // TODO: 28.05.16 получение переменных формы
-        // TODO: 28.05.16 заполнение переменных формы
+        TextView drugDescr = (TextView) findViewById(R.id.drug_description);
+
+        String data = "";
+
+        // TODO: 30.05.16 вынести в asynctask
+        data +=
+                drug.getName() +
+                drug.getComposition() +
+                drug.getContras() +
+                drug.getDosage() +
+                drug.getFirm() +
+                drug.getInteraction() +
+                drug.getOverdose()+
+                drug.getPharmAction() +
+                drug.getPharmGroup() +
+                drug.getSideEffect() +
+                drug.getSpecial() +
+                drug.getUsage();
+
+        drugDescr.setText(data);
+
+        //todo: to use TextUtils.EllipsizeCallback
 
     }
 
