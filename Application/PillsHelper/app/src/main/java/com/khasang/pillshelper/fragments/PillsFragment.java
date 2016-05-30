@@ -25,7 +25,7 @@ public class PillsFragment extends Fragment {
     }
 
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private DrugAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private EditText search_field;
 
@@ -52,8 +52,9 @@ public class PillsFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mAdapter = new DrugAdapter(PillsDBHelper.getInstance().findDrugsByName(String.valueOf(search_field.getText())));
-                mRecyclerView.setAdapter(mAdapter);
+                String currentText = String.valueOf(search_field.getText());
+                List<Drug> drugs = PillsDBHelper.getInstance().findDrugsByName(currentText);
+                mAdapter.updateDrugList(drugs);
             }
 
             @Override
@@ -91,6 +92,11 @@ class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.ViewHolder> {
 
     public DrugAdapter(List<Drug> drugs) {
         this.drugs = drugs;
+    }
+
+    public void updateDrugList(List<Drug> drugs){
+        this.drugs = drugs;
+        notifyDataSetChanged();
     }
 
     @Override
