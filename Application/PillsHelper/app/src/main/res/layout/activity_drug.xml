@@ -32,13 +32,7 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <!--include layout="@layout/content_drug" /-->
-    <WebView
-        android:id="@+id/WebDrugDescription"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        />
+    <include layout="@layout/content_drug" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

@@ -70,8 +70,10 @@ public class DrugActivity extends AppCompatActivity {
         String data = "";
 
         // TODO: 30.05.16 вынести в asynctask
+
+        setTitle(drug.getName());
+
         data +=
-                drug.getName() +
                 drug.getComposition() +
                 drug.getContras() +
                 drug.getDosage() +
@@ -87,7 +89,7 @@ public class DrugActivity extends AppCompatActivity {
         //drugDescr.setText(data);
         drugDescr.loadDataWithBaseURL("",data, "text/html", "utf8","");
 
-        //todo: to use TextUtils.EllipsizeCallback
+        //if no HTML - to use TextUtils.EllipsizeCallback
 
     }
 
