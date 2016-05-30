@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.google.android.gms.appindexing.Action;
@@ -62,7 +63,9 @@ public class DrugActivity extends AppCompatActivity {
             drug = new Drug(drug_id);
         } else return;
 
-        TextView drugDescr = (TextView) findViewById(R.id.drug_description);
+        //TextView drugDescr = (TextView) findViewById(R.id.drug_description);
+        WebView drugDescr = (WebView) findViewById(R.id.WebDrugDescription);
+
 
         String data = "";
 
@@ -81,7 +84,8 @@ public class DrugActivity extends AppCompatActivity {
                 drug.getSpecial() +
                 drug.getUsage();
 
-        drugDescr.setText(data);
+        //drugDescr.setText(data);
+        drugDescr.loadDataWithBaseURL("",data, "text/html", "utf8","");
 
         //todo: to use TextUtils.EllipsizeCallback
 
