@@ -8,7 +8,7 @@ import com.khasang.pillshelper.db.model.Drug;
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
 import java.util.ArrayList;
-import java.util.Collection;
+//import java.util.Collection;
 import java.util.List;
 
 public class PillsDBHelper extends SQLiteAssetHelper {
