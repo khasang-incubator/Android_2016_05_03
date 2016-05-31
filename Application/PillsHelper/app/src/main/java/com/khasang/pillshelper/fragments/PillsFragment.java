@@ -129,11 +129,6 @@ public class PillsFragment extends Fragment {
             this.allDrugs = drugs;
         }
 
-        public void updateDrugList(List<Drug> drugs){
-            this.drugs = drugs;
-            notifyDataSetChanged();
-        }
-
         @Override
         public DrugAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             TextView v = (TextView) LayoutInflater.from(parent.getContext()).inflate(R.layout.drug_item, parent, false);
