@@ -39,7 +39,7 @@ public class PillsDBHelper extends SQLiteAssetHelper {
         List<Drug> result = new ArrayList<>();
         SQLiteDatabase db = getReadableDatabase();
         String[] columns = {"_id"};
-        Cursor cursor = db.query(false, "drug", columns, "name like ?", new String[]{"%" + name + "%"}, null, null, null, null);
+        Cursor cursor = db.query(false, "drug", columns, "name like ?", new String[]{"%" + name.toUpperCase() + "%"}, null, null, null, null);
         if(cursor != null){
             int idIndex = cursor.getColumnIndex("_id");
             while (cursor.moveToNext()){
