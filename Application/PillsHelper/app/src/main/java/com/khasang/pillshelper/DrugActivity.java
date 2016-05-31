@@ -73,17 +73,18 @@ public class DrugActivity extends AppCompatActivity {
         setTitle(drug.getName());
 
         data +=
-                drug.getComposition() +
-                drug.getContras() +
-                drug.getDosage() +
-                drug.getFirm() +
-                drug.getInteraction() +
-                drug.getOverdose()+
-                drug.getPharmAction() +
-                drug.getPharmGroup() +
-                drug.getSideEffect() +
-                drug.getSpecial() +
-                drug.getUsage();
+                "<header><b>" + drug.getFirm() + "</b></header>" +
+                        "<article><p>" + drug.getComposition() +  "</p>" +
+                        "<p>" + drug.getContras() +  "</p>" +
+                        "<p>" + drug.getDosage() +  "</p>" +
+                        "<p>" + drug.getInteraction() +  "</p>" +
+                        "<p>" + drug.getOverdose() +  "</p>" +
+                        "<p>" + drug.getPharmAction() +  "</p>" +
+                        "<p>" + drug.getPharmGroup() +  "</p>" +
+                        "<p>" + drug.getSideEffect() +  "</p>" +
+                        "<p>" + drug.getSpecial() +  "</p>" +
+                        "<p>" + drug.getUsage() +  "</p>" +
+                        "<p>" + drug.getStorage() + "</p></article>";
 
         drugDescr.setText(Html.fromHtml(data));
 
