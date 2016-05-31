@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
 import android.webkit.WebView;
@@ -63,9 +64,7 @@ public class DrugActivity extends AppCompatActivity {
             drug = new Drug(drug_id);
         } else return;
 
-        //TextView drugDescr = (TextView) findViewById(R.id.drug_description);
-        WebView drugDescr = (WebView) findViewById(R.id.WebDrugDescription);
-
+        TextView drugDescr = (TextView) findViewById(R.id.drug_description);
 
         String data = "";
 
@@ -86,8 +85,7 @@ public class DrugActivity extends AppCompatActivity {
                 drug.getSpecial() +
                 drug.getUsage();
 
-        //drugDescr.setText(data);
-        drugDescr.loadDataWithBaseURL("",data, "text/html", "utf8","");
+        drugDescr.setText(Html.fromHtml(data));
 
         //if no HTML - to use TextUtils.EllipsizeCallback
 

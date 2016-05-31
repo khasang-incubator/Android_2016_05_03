@@ -9,16 +9,11 @@
     tools:context="com.khasang.pillshelper.DrugActivity"
     tools:showIn="@layout/activity_drug">
 
-    <!--TextView
+    <TextView
         android:id="@+id/drug_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
-        android:text="@string/large_text" /-->
-    <WebView
-        android:id="@+id/WebDrugDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
+        android:text="@string/large_text" />
 
 </android.support.v4.widget.NestedScrollView>
