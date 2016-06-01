@@ -14,13 +14,10 @@
         android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.NoActionBar.AppBarOverlay">
 
-        <android.support.design.widget.CollapsingToolbarLayout
+        <FrameLayout
             android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            android:layout_height="match_parent">
 
             <include layout="@layout/drawer_header"/>
 
@@ -31,7 +28,7 @@
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.NoActionBar.PopupOverlay"/>
 
-        </android.support.design.widget.CollapsingToolbarLayout>
+        </FrameLayout>
 
     </android.support.design.widget.AppBarLayout>
 
