@@ -48,7 +48,6 @@ public class PillsFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(view.getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        PillsDBHelper.init(view.getContext());
         mAdapter = new DrugAdapter(PillsDBHelper.getInstance().getAllDrugs());
         mRecyclerView.setAdapter(mAdapter);
 
