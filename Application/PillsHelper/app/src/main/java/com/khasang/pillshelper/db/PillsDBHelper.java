@@ -35,33 +35,18 @@ public class PillsDBHelper extends SQLiteAssetHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    public List<Drug> findDrugsByName(String name){
-        List<Drug> result = new ArrayList<>();
-        SQLiteDatabase db = getReadableDatabase();
-        String[] columns = {"_id"};
-        Cursor cursor = db.query(false, "drug", columns, "name like ?", new String[]{"%" + name + "%"}, null, null, null, null);
-        if(cursor != null){
-            int idIndex = cursor.getColumnIndex("_id");
-            while (cursor.moveToNext()){
-                int drugID = cursor.getInt(idIndex);
-                result.add(new Drug(drugID));
-            }
-            cursor.close();
-        }
-        db.close();
-        return result;
-    }
-
     public List<Drug> getAllDrugs(){
         List<Drug> result = new ArrayList<>();
         SQLiteDatabase db = getReadableDatabase();
-        String[] columns = {"_id"};
+        String[] columns = {"_id", "name"};
         Cursor cursor = db.query(false, "drug", columns, null, null, null, null, null, null);
         if(cursor != null){
             int idIndex = cursor.getColumnIndex("_id");
+            int idName = cursor.getColumnIndex("name");
             while (cursor.moveToNext()){
                 int drugID = cursor.getInt(idIndex);
-                result.add(new Drug(drugID));
+                String name = cursor.getString(idName);
+                result.add(new Drug(drugID, name));
             }
             cursor.close();
         }

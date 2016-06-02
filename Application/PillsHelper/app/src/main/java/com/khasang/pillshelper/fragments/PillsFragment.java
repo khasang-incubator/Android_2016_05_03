@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.khasang.pillshelper.DrugActivity;
@@ -19,6 +21,7 @@ import com.khasang.pillshelper.R;
 import com.khasang.pillshelper.db.PillsDBHelper;
 import com.khasang.pillshelper.db.model.Drug;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PillsFragment extends Fragment {
@@ -59,8 +62,7 @@ public class PillsFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String currentText = String.valueOf(search_field.getText());
-                List<Drug> drugs = PillsDBHelper.getInstance().findDrugsByName(currentText);
-                mAdapter.updateDrugList(drugs);
+                mAdapter.getFilter().filter(currentText);
             }
 
             @Override
@@ -71,8 +73,33 @@ public class PillsFragment extends Fragment {
         return view;
     }
 
-    static class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.ViewHolder> {
+    static class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.ViewHolder> implements Filterable{
         private List<Drug> drugs;
+        private List<Drug> allDrugs;
+
+        @Override
+        public Filter getFilter() {
+            return new Filter() {
+                @Override
+                protected FilterResults performFiltering(CharSequence constraint) {
+                    List<Drug> filteredDrugs = new ArrayList<>();
+                    for (Drug drug : allDrugs) {
+                        if (drug.getName().toUpperCase().contains(String.valueOf(constraint).toUpperCase())) {
+                            filteredDrugs.add(drug);
+                        }
+                    }
+                    FilterResults results = new FilterResults();
+                    results.values = filteredDrugs;
+                    return results;
+                }
+
+                @Override
+                protected void publishResults(CharSequence constraint, FilterResults results) {
+                    drugs = (List<Drug>) results.values;
+                    notifyDataSetChanged();
+                }
+            };
+        }
 
         public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
             public TextView mTextView;
@@ -99,11 +126,7 @@ public class PillsFragment extends Fragment {
 
         public DrugAdapter(List<Drug> drugs) {
             this.drugs = drugs;
-        }
-
-        public void updateDrugList(List<Drug> drugs){
-            this.drugs = drugs;
-            notifyDataSetChanged();
+            this.allDrugs = drugs;
         }
 
         @Override
