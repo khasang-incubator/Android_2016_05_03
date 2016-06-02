@@ -81,7 +81,6 @@ public class MainActivity extends Activity {
         getActionBar().setTitle(title);
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -197,6 +196,5 @@ public class MainActivity extends Activity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
 
 }

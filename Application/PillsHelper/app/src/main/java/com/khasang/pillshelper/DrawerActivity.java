@@ -1,9 +1,8 @@
 package com.khasang.pillshelper;
 
-
 import android.app.FragmentManager;
-
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -26,14 +25,12 @@ import com.khasang.pillshelper.fragments.PillsFragment;
 public class DrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-
     private NewCourseFragment frNewCourse;
     private AllCourseFragment frAllCorse;
     private CurrentCourseFragment frCurrentCourse;
     private MainFragment frMain;
     private PillsFragment frAllPills;
     private int currentPosition = 0;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +61,10 @@ public class DrawerActivity extends AppCompatActivity
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
 
+                // TODO: 02.06.16 удалить после теста
+                Intent intent = new Intent(DrawerActivity.this, UserActivity.class);
+                intent.putExtra(UserActivity.DRUG_LIST, getDrugIdArray());
+                startActivity(intent);
             }
         });
 
@@ -76,7 +77,10 @@ public class DrawerActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+    }
 
+    private int[] getDrugIdArray() {
+        return new int[]{25, 187, 245, 903, 2841};
     }
 
     @Override
