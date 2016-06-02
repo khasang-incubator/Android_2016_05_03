@@ -1,7 +1,6 @@
 package com.khasang.pillshelper;
 
 
-
 import android.app.FragmentManager;
 
 import android.app.FragmentTransaction;
@@ -53,13 +52,12 @@ public class DrawerActivity extends AppCompatActivity
         frMain = new MainFragment();
         frAllPills = new PillsFragment();
         if (savedInstanceState == null) {
-        frMain.setArguments(getIntent().getExtras());
+            frMain.setArguments(getIntent().getExtras());
             FragmentManager fragmentManager = getFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-               fragmentTransaction.add(R.id.container, frMain).commit();
+            fragmentTransaction.add(R.id.container, frMain).commit();
         }
-
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
