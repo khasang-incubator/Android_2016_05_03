@@ -116,4 +116,9 @@ public class Drug {
     public Drug(int id){
         this.id = id;
     }
+
+    public Drug(int id, String name){
+        this.id = id;
+        this.name = name;
+    }
 }

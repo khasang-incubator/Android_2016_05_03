@@ -3,6 +3,8 @@ package com.khasang.pillshelper;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -16,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.khasang.pillshelper.db.PillsDBHelper;
 import com.khasang.pillshelper.fragments.AllCourseFragment;
 import com.khasang.pillshelper.fragments.CurrentCourseFragment;
 import com.khasang.pillshelper.fragments.MainFragment;
@@ -32,10 +35,14 @@ public class DrawerActivity extends AppCompatActivity
     private PillsFragment frAllPills;
     private int currentPosition = 0;
 
+    private Menu navigation_view_menu;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
+
+        initDB();
 
         frNewCourse = new NewCourseFragment();
         frAllCorse = new AllCourseFragment();
@@ -75,12 +82,29 @@ public class DrawerActivity extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigation_view_menu = navigationView.getMenu();
         navigationView.setNavigationItemSelectedListener(this);
 
     }
 
     private int[] getDrugIdArray() {
         return new int[]{25, 187, 245, 903, 2841};
+    }
+
+    private void initDB(){
+        new AsyncTask<Context, Void, Void>(){
+            @Override
+            protected Void doInBackground(Context... params) {
+                PillsDBHelper.init(params[0]);
+                return null;
+            }
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                MenuItem allPillsItem = navigation_view_menu.findItem(R.id.all_pills);
+                allPillsItem.setEnabled(true);
+            }
+        }.execute(this);
     }
 
     @Override
@@ -115,7 +139,6 @@ public class DrawerActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
