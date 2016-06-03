@@ -13,7 +13,6 @@ import org.joda.time.Instant;
 import org.joda.time.LocalTime;
 
 import java.util.ArrayList;
-//import java.util.Collection;
 import java.util.List;
 
 public class PillsDBHelper extends SQLiteAssetHelper {
@@ -42,6 +41,10 @@ public class PillsDBHelper extends SQLiteAssetHelper {
 
     //it is temp mock-method, it returns fake courses
     //TODO implement get courses from database
+    /**
+     * Get list of all courses which stored in database
+     * @return list of courses
+     */
     public List<Course> getCourses(){
         List<Course> courses = new ArrayList<>();
 
