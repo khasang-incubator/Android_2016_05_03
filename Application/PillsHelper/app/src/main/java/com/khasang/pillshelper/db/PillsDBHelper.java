@@ -8,7 +8,6 @@ import com.khasang.pillshelper.db.model.Course;
 import com.khasang.pillshelper.db.model.Drug;
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
-import org.joda.time.Duration;
 import org.joda.time.Instant;
 import org.joda.time.LocalTime;
 
@@ -39,8 +38,6 @@ public class PillsDBHelper extends SQLiteAssetHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    //it is temp mock-method, it returns fake courses
-    //TODO implement get courses from database
     /**
      * Get list of all courses which stored in database
      * @return list of courses
@@ -48,39 +45,49 @@ public class PillsDBHelper extends SQLiteAssetHelper {
     public List<Course> getCourses(){
         List<Course> courses = new ArrayList<>();
 
-        //every day at 9.00, 16.00 and 23.00, start - now, end - undefined
-        List<LocalTime> takingTime0 = new ArrayList<>();
-        takingTime0.add(new LocalTime(9, 0));
-        takingTime0.add(new LocalTime(16, 0));
-        takingTime0.add(new LocalTime(23, 0));
-        Instant startDate0 = Instant.now();
-        courses.add(new Course(0, new Drug(64), startDate0, null, takingTime0, 1));
+        SQLiteDatabase db = getReadableDatabase();
 
-        //every 5th day at 19.00, start - now, end - undefined
-        List<LocalTime> takingTime1 = new ArrayList<>();
-        takingTime1.add(new LocalTime(19, 0));
-        Instant startDate1 = Instant.now();
-        courses.add(new Course(1, new Drug(128), startDate1, null, takingTime1, 5));
+        Cursor courseCursor = db.rawQuery("select _id, drug_id, start, end, interval from course c", null);
 
-        //every 2th day at 8.00 and 18.00, start - now + 2 days, end - undefined
-        List<LocalTime> takingTime2 = new ArrayList<>();
-        takingTime2.add(new LocalTime(8, 0));
-        takingTime2.add(new LocalTime(18, 0));
-        Instant startDate2 = Instant.now().plus(Duration.standardDays(2));
-        courses.add(new Course(2, new Drug(256), startDate2, null, takingTime2, 2));
+        if(courseCursor != null){
 
-        //every day at 8.00, 9.00, 10.00, 11.00, 12.00, 13.00, start - now, end - now + 15 days
-        List<LocalTime> takingTime3 = new ArrayList<>();
-        takingTime3.add(new LocalTime(8, 0));
-        takingTime3.add(new LocalTime(9, 0));
-        takingTime3.add(new LocalTime(10, 0));
-        takingTime3.add(new LocalTime(11, 0));
-        takingTime3.add(new LocalTime(12, 0));
-        takingTime3.add(new LocalTime(13, 0));
-        Instant startDate3 = Instant.now();
-        Instant endDate3 = Instant.now().plus(Duration.standardDays(15));
-        courses.add(new Course(3, new Drug(256), startDate3, endDate3, takingTime3, 1));
+            int idIndex = courseCursor.getColumnIndex("_id");
+            int drugIdIndex = courseCursor.getColumnIndex("drug_id");
+            int startIndex = courseCursor.getColumnIndex("start");
+            int endIndex = courseCursor.getColumnIndex("end");
+            int intervalIndex = courseCursor.getColumnIndex("interval");
 
+            while(courseCursor.moveToNext()){
+
+                int courseID = courseCursor.getInt(idIndex);
+                Drug drug = new Drug(courseCursor.getInt(drugIdIndex));
+                Instant start = new Instant(courseCursor.getLong(startIndex));
+                Instant end = new Instant(courseCursor.getLong(endIndex));
+                List<LocalTime> takingTime = new ArrayList<>();
+                int intervalInDays = courseCursor.getInt(intervalIndex);
+
+                String[] argsForTakingTimeSelect = {String.valueOf(courseID)};
+                Cursor takingTimeCursor = db.rawQuery("select time from taking_time where course_id = ?", argsForTakingTimeSelect);
+
+                if(takingTimeCursor != null){
+
+                    int timeIndex = takingTimeCursor.getColumnIndex("time");
+
+                    while(takingTimeCursor.moveToNext()){
+                        long millisOfDay = takingTimeCursor.getLong(timeIndex);
+                        LocalTime time = LocalTime.fromMillisOfDay(millisOfDay);
+                        takingTime.add(time);
+                    }
+
+                    takingTimeCursor.close();
+                }
+
+                Course course = new Course(courseID, drug, start, end, takingTime,intervalInDays);
+                courses.add(course);
+            }
+            courseCursor.close();
+        }
+        db.close();
         return courses;
     }
 
