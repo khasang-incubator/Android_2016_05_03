@@ -84,6 +84,40 @@ public class PillsDBHelper extends SQLiteAssetHelper {
         return courses;
     }
 
+    private void insertTakingTime(int courseID, List<LocalTime> takingTime){
+        SQLiteDatabase db = getWritableDatabase();
+        StringBuilder selectForInsertTakingTimes = new StringBuilder();
+        for(int i = 0; i < takingTime.size(); i++){
+            if(i == 0){
+                selectForInsertTakingTimes.append("select " + takingTime.get(i).getMillisOfDay() + "," + courseID);
+            }
+            else{
+                selectForInsertTakingTimes.append(" union select " + takingTime.get(i).getMillisOfDay() + "," + courseID);
+            }
+        }
+        db.execSQL("insert into taking_time(time, course_id) " + selectForInsertTakingTimes.toString());
+        db.close();
+    }
+
+    private int insertCourse(Drug drug, Instant startDate, Instant endDate, int intervalInDays){
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("insert into course(drug_id, start, end, interval) " +
+                "values(" + drug.getId() + "," + startDate.getMillis() + "," + endDate.getMillis() + "," + intervalInDays + ")");
+        String[] columns = {"inserted_id"};
+        Cursor cursor = db.rawQuery("select last_insert_rowid() inserted_id", columns);
+        cursor.moveToFirst();
+        int courseID = cursor.getInt(cursor.getColumnIndex("inserted_id"));
+        cursor.close();
+        db.close();
+        return courseID;
+    }
+
+    public Course addCourse(Drug drug, Instant startDate, Instant endDate, List<LocalTime> takingTime, int intervalInDays){
+        int courseID = insertCourse(drug, startDate, endDate, intervalInDays);
+        insertTakingTime(courseID, takingTime);
+        return new Course(courseID, drug, startDate, endDate, takingTime, intervalInDays);
+    }
+
     public List<Drug> getAllDrugs(){
         List<Drug> result = new ArrayList<>();
         SQLiteDatabase db = getReadableDatabase();

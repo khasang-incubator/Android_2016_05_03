@@ -1,5 +1,7 @@
 package com.khasang.pillshelper.db.model;
 
+import com.khasang.pillshelper.db.PillsDBHelper;
+
 import org.joda.time.Duration;
 import org.joda.time.Instant;
 import org.joda.time.LocalTime;
@@ -35,11 +37,16 @@ public class Course {
     private int intervalInDays;
 
     public Course(int courseID, Drug drug, Instant startDate, Instant endDate, List<LocalTime> takingTime, int intervalInDays){
+        this.courseID = courseID;
         this.drug = drug;
         this.startDate = startDate;
         this.endDate = endDate;
         this.takingTime = takingTime;
         this.intervalInDays = intervalInDays;
+    }
+
+    public static Course createCourse(Drug drug, Instant startDate, Instant endDate, List<LocalTime> takingTime, int intervalInDays){
+        return PillsDBHelper.getInstance().addCourse(drug, startDate, endDate, takingTime, intervalInDays);
     }
 
     /**
