@@ -161,6 +161,12 @@ public class PillsDBHelper extends SQLiteAssetHelper {
         return new Course(courseID, drug, startDate, endDate, takingTime, intervalInDays);
     }
 
+    public void deleteCourse(int courseID){
+        SQLiteDatabase db = getWritableDatabase();
+        String[] args = {String.valueOf(courseID)};
+        db.delete("course", "_id = ?", args);
+    }
+
     public List<Drug> getAllDrugs(){
         List<Drug> result = new ArrayList<>();
         SQLiteDatabase db = getReadableDatabase();
