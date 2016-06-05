@@ -87,4 +87,28 @@ public class Course {
     public Drug getDrug(){
         return this.drug;
     }
+
+    public int getID(){
+        return this.courseID;
+    }
+
+    public int getCourseID() {
+        return courseID;
+    }
+
+    public Instant getEndDate() {
+        return endDate;
+    }
+
+    public Instant getStartDate() {
+        return startDate;
+    }
+
+    public List<LocalTime> getTakingTime() {
+        return takingTime;
+    }
+
+    public int getIntervalInDays() {
+        return intervalInDays;
+    }
 }
