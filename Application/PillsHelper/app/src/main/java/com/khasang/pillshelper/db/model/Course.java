@@ -75,4 +75,8 @@ public class Course {
     private Instant min(Instant a, Instant b){
         return (a == null) ? b: (a.isAfter(b) ? b: a);
     }
+
+    public Drug getDrug(){
+        return this.drug;
+    }
 }
