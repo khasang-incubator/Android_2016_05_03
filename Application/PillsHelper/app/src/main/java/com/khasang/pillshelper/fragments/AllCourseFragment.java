@@ -2,12 +2,21 @@ package com.khasang.pillshelper.fragments;
 
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.support.v7.widget.RecyclerView;
+import android.widget.TextView;
 
 import com.khasang.pillshelper.R;
+import com.khasang.pillshelper.db.PillsDBHelper;
+import com.khasang.pillshelper.db.model.Course;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -25,7 +34,73 @@ public class AllCourseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_all_course, container, false);
+        View v = inflater.inflate(R.layout.fragment_all_course, container, false);
+
+        fillFragment(v);
+
+        return v;
+    }
+
+    void fillFragment(View view) {
+        RecyclerView mRecyclerView;
+        RecyclerView.LayoutManager mLayoutManager;
+        CourseAdapter mAdapter;
+
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.CoursesRecycler);
+
+        mLayoutManager = new LinearLayoutManager(view.getContext());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        mAdapter = new CourseAdapter(PillsDBHelper.getInstance().getCourses());
+        mRecyclerView.setAdapter(mAdapter);
+    }
+
+    static class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder> {
+        private List<Course> courses;
+        private List<Course> allCourses;
+
+        public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+            public TextView mTextView;
+            private Course item;
+
+            public ViewHolder(TextView v) {
+                super(v);
+                mTextView = v;
+                mTextView.setOnClickListener(this);
+            }
+
+            public void setItem(Course item){
+                this.item = item;
+                mTextView.setText(item.toString());
+                //mTextView.setText(item.drug.getName());
+            }
+
+            @Override
+            public void onClick(View v) {
+                // TODO: 04.06.16 открытые конкретного курса
+            }
+        }
+
+        public CourseAdapter(List<Course> courses) {
+            this.courses = courses;
+            this.allCourses = courses;
+        }
+
+        @Override
+        public CourseAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            TextView v = (TextView) LayoutInflater.from(parent.getContext()).inflate(R.layout.course_item, parent, false);
+            return new ViewHolder(v);
+        }
+
+        @Override
+        public void onBindViewHolder(ViewHolder holder, int position) {
+            holder.setItem(courses.get(position));
+        }
+
+        @Override
+        public int getItemCount() {
+            return courses.size();
+        }
     }
 
 }
