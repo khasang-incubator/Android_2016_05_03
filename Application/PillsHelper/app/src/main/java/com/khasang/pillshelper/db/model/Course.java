@@ -49,6 +49,14 @@ public class Course {
         return PillsDBHelper.getInstance().addCourse(drug, startDate, endDate, takingTime, intervalInDays);
     }
 
+    public static void deleteCourse(Course course){
+        deleteCourse(course.courseID);
+    }
+
+    public static void deleteCourse(int courseID){
+        PillsDBHelper.getInstance().deleteCourse(courseID);
+    }
+
     /**
      * Get list of instants(in other words timestamps) which represent
      * the schedule taking drugs limited begin date and end date
@@ -78,5 +86,29 @@ public class Course {
 
     public Drug getDrug(){
         return this.drug;
+    }
+
+    public int getID(){
+        return this.courseID;
+    }
+
+    public int getCourseID() {
+        return courseID;
+    }
+
+    public Instant getEndDate() {
+        return endDate;
+    }
+
+    public Instant getStartDate() {
+        return startDate;
+    }
+
+    public List<LocalTime> getTakingTime() {
+        return takingTime;
+    }
+
+    public int getIntervalInDays() {
+        return intervalInDays;
     }
 }
