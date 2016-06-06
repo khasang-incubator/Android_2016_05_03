@@ -15,16 +15,24 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.khasang.pillshelper.db.PillsDBHelper;
+import com.khasang.pillshelper.db.model.Course;
 import com.khasang.pillshelper.fragments.AllCourseFragment;
 import com.khasang.pillshelper.fragments.CurrentCourseFragment;
 import com.khasang.pillshelper.fragments.MainFragment;
 import com.khasang.pillshelper.fragments.NewCourseFragment;
 import com.khasang.pillshelper.fragments.PillsFragment;
+
+import org.joda.time.Duration;
+import org.joda.time.Instant;
+import org.joda.time.LocalTime;
+
+import java.util.List;
 
 public class DrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -98,6 +106,15 @@ public class DrawerActivity extends AppCompatActivity
                 super.onPostExecute(aVoid);
                 MenuItem allPillsItem = navigation_view_menu.findItem(R.id.all_pills);
                 allPillsItem.setEnabled(true);
+
+                PillsDBHelper.getInstance().fillDBTest();
+                List<Course> courses = PillsDBHelper.getInstance().getCourses();
+                for(Course course: courses){
+                    List<Instant> instants = course.getSchedule(Instant.now().minus(Duration.standardDays(1)), Instant.now().plus(Duration.standardDays(7)));
+                    for(Instant instant: instants){
+                        Log.d("grol", course.getDrug().getName() + " " + instant.toString());
+                    }
+                }
             }
         }.execute(this);
     }

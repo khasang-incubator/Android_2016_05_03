@@ -1,5 +1,7 @@
 package com.khasang.pillshelper.db.model;
 
+import com.khasang.pillshelper.db.PillsDBHelper;
+
 import org.joda.time.Duration;
 import org.joda.time.Instant;
 import org.joda.time.LocalTime;
@@ -35,11 +37,24 @@ public class Course {
     private int intervalInDays;
 
     public Course(int courseID, Drug drug, Instant startDate, Instant endDate, List<LocalTime> takingTime, int intervalInDays){
+        this.courseID = courseID;
         this.drug = drug;
         this.startDate = startDate;
         this.endDate = endDate;
         this.takingTime = takingTime;
         this.intervalInDays = intervalInDays;
+    }
+
+    public static Course createCourse(Drug drug, Instant startDate, Instant endDate, List<LocalTime> takingTime, int intervalInDays){
+        return PillsDBHelper.getInstance().addCourse(drug, startDate, endDate, takingTime, intervalInDays);
+    }
+
+    public static void deleteCourse(Course course){
+        deleteCourse(course.courseID);
+    }
+
+    public static void deleteCourse(int courseID){
+        PillsDBHelper.getInstance().deleteCourse(courseID);
     }
 
     /**
@@ -67,5 +82,33 @@ public class Course {
 
     private Instant min(Instant a, Instant b){
         return (a == null) ? b: (a.isAfter(b) ? b: a);
+    }
+
+    public Drug getDrug(){
+        return this.drug;
+    }
+
+    public int getID(){
+        return this.courseID;
+    }
+
+    public int getCourseID() {
+        return courseID;
+    }
+
+    public Instant getEndDate() {
+        return endDate;
+    }
+
+    public Instant getStartDate() {
+        return startDate;
+    }
+
+    public List<LocalTime> getTakingTime() {
+        return takingTime;
+    }
+
+    public int getIntervalInDays() {
+        return intervalInDays;
     }
 }
