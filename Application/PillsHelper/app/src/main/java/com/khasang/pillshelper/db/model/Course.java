@@ -4,10 +4,14 @@ import com.khasang.pillshelper.db.PillsDBHelper;
 
 import org.joda.time.Duration;
 import org.joda.time.Instant;
+import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Course {
     private int courseID;
@@ -78,6 +82,11 @@ public class Course {
             currentInstant = currentInstant.plus(step);
         }
         return instants;
+    }
+
+    public static Map<LocalTime, Collection<Drug>> getScheduleForDay(LocalDate day){
+        Map<LocalTime, Collection<Drug>> result = new HashMap<>();
+        return result;
     }
 
     private Instant min(Instant a, Instant b){
