@@ -1,14 +1,19 @@
 package com.khasang.pillshelper.db.model;
 
+import android.util.Log;
+
 import com.khasang.pillshelper.db.PillsDBHelper;
 
+import org.joda.time.DateTimeField;
 import org.joda.time.Duration;
 import org.joda.time.Instant;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,6 +54,19 @@ public class Course {
         this.intervalInDays = intervalInDays;
     }
 
+    public static class Adoption implements Comparable<Adoption>{
+        public Instant timestamp;
+        public Drug drug;
+        public Adoption(Instant timestamp, Drug drug){
+            this.timestamp = timestamp;
+            this.drug = drug;
+        }
+        @Override
+        public int compareTo(Adoption another) {
+            return timestamp.compareTo(another.timestamp);
+        }
+    }
+
     public static Course createCourse(Drug drug, Instant startDate, Instant endDate, List<LocalTime> takingTime, int intervalInDays){
         return PillsDBHelper.getInstance().addCourse(drug, startDate, endDate, takingTime, intervalInDays);
     }
@@ -59,6 +77,19 @@ public class Course {
 
     public static void deleteCourse(int courseID){
         PillsDBHelper.getInstance().deleteCourse(courseID);
+    }
+
+    public static List<Adoption> getAllAdoptionsByPeriod(Instant begin, Instant end){
+        List<Adoption> result = new ArrayList<>();
+        List<Course> courses = PillsDBHelper.getInstance().getCourses();
+        for(Course course: courses){
+            List<Instant> schedule = course.getSchedule(begin, end);
+            for(Instant instant: schedule){
+                result.add(new Adoption(instant, course.getDrug()));
+            }
+        }
+        Collections.sort(result);
+        return result;
     }
 
     /**
@@ -73,20 +104,18 @@ public class Course {
         Instant currentInstant = startDate;
         Instant endInstant = min(endDate, end);
         Duration step = Duration.standardDays(intervalInDays);
-        while(currentInstant.isBefore(endInstant)){
+        while(!currentInstant.isAfter(endInstant)){
             if(!currentInstant.isBefore(begin)) {
                 for (LocalTime time : takingTime) {
-                    instants.add(time.toDateTime(currentInstant).toInstant());
+                    Instant instant = time.toDateTime(currentInstant).toInstant();
+                    if(!instant.isBefore(startDate)) {
+                        instants.add(instant);
+                    }
                 }
             }
             currentInstant = currentInstant.plus(step);
         }
         return instants;
-    }
-
-    public static Map<LocalTime, Collection<Drug>> getScheduleForDay(LocalDate day){
-        Map<LocalTime, Collection<Drug>> result = new HashMap<>();
-        return result;
     }
 
     private Instant min(Instant a, Instant b){

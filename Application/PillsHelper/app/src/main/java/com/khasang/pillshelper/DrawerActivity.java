@@ -30,6 +30,7 @@ import com.khasang.pillshelper.fragments.PillsFragment;
 
 import org.joda.time.Duration;
 import org.joda.time.Instant;
+import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 
 import java.util.List;
@@ -108,13 +109,18 @@ public class DrawerActivity extends AppCompatActivity
                 allPillsItem.setEnabled(true);
 
                 PillsDBHelper.getInstance().fillDBTest();
-                List<Course> courses = PillsDBHelper.getInstance().getCourses();
-                for(Course course: courses){
-                    List<Instant> instants = course.getSchedule(Instant.now().minus(Duration.standardDays(1)), Instant.now().plus(Duration.standardDays(7)));
-                    for(Instant instant: instants){
-                        Log.d("grol", course.getDrug().getName() + " " + instant.toString());
-                    }
+                List<Course.Adoption> adoptions = Course.getAllAdoptionsByPeriod(Instant.now().minus(Duration.standardDays(2)), Instant.now().plus(Duration.standardDays(7)));
+                for(Course.Adoption adoption: adoptions){
+                    Log.d("grol", adoption.timestamp + " " + adoption.drug.getName());
                 }
+
+                //List<Course> courses = PillsDBHelper.getInstance().getCourses();
+                //for(Course course: courses){
+                //    List<Instant> instants = course.getSchedule(Instant.now().minus(Duration.standardDays(1)), Instant.now().plus(Duration.standardDays(7)));
+                //    for(Instant instant: instants){
+                //        Log.d("grol", course.getDrug().getName() + " " + instant.toString());
+                //    }
+                //}
             }
         }.execute(this);
     }
