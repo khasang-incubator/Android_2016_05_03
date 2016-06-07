@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -29,8 +30,6 @@ import com.khasang.pillshelper.fragments.PillsFragment;
 public class DrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-
-    private NewCourseFragment frNewCourse;
     private AllCourseFragment frAllCorse;
     private CurrentCourseFragment frCurrentCourse;
     private MainFragment frMain;
@@ -46,7 +45,6 @@ public class DrawerActivity extends AppCompatActivity
 
         initDB();
 
-        frNewCourse = new NewCourseFragment();
         frAllCorse = new AllCourseFragment();
         frCurrentCourse = new CurrentCourseFragment();
         frMain = new MainFragment();
@@ -142,7 +140,8 @@ public class DrawerActivity extends AppCompatActivity
         FragmentTransaction ft = getFragmentManager().beginTransaction();
 
         if (id == R.id.new_course) {
-            ft.replace(R.id.container, frNewCourse);
+            //ft.replace(R.id.container, frNewCourse);
+            startActivity(new Intent(this, AddCourseActivity.class));
 
         } else if (id == R.id.all_course) {
             ft.replace(R.id.container, frAllCorse);

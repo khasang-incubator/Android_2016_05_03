@@ -22,20 +22,20 @@
         <item>Суббота</item>
         <item>Воскресенье</item>
     </string-array>
-    
+
     <string-array name="spinner_schedule">
         <item>Ежедневно</item>
         <item>Дни приема</item>
 
     </string-array>
-    
+
     <string-array name="titles">
         <item>Добавить новый курс лечения</item>
         <item>Просмотреть все курсы лечения</item>
         <item>Просмотреть текущий курс лечения</item>
 
     </string-array>
-    
+
     <string name="action_settings">Settings</string>
     <string name="action_add_user">Добавить пользователя</string>
     <string name="title_activity_order">Order Activity</string>
