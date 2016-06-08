@@ -8,8 +8,8 @@ import com.khasang.pillshelper.db.model.Course;
 import com.khasang.pillshelper.db.model.Drug;
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
-import org.joda.time.Duration;
 import org.joda.time.Instant;
+import org.joda.time.LocalDateTime;
 import org.joda.time.LocalTime;
 
 import java.util.ArrayList;
@@ -49,20 +49,20 @@ public class PillsDBHelper extends SQLiteAssetHelper {
         takingTime0.add(new LocalTime(9, 0));
         takingTime0.add(new LocalTime(16, 0));
         takingTime0.add(new LocalTime(23, 0));
-        Instant startDate0 = Instant.now();
+        LocalDateTime startDate0 = LocalDateTime.now();
         addCourse(new Drug(64), startDate0, null, takingTime0, 1);
 
         //every 5th day at 19.00, start - now, end - undefined
         List<LocalTime> takingTime1 = new ArrayList<>();
         takingTime1.add(new LocalTime(19, 0));
-        Instant startDate1 = Instant.now();
+        LocalDateTime startDate1 = LocalDateTime.now();
         addCourse(new Drug(128), startDate1, null, takingTime1, 5);
 
         //every 2th day at 8.00 and 18.00, start - now + 2 days, end - undefined
         List<LocalTime> takingTime2 = new ArrayList<>();
         takingTime2.add(new LocalTime(8, 0));
         takingTime2.add(new LocalTime(18, 0));
-        Instant startDate2 = Instant.now().plus(Duration.standardDays(2));
+        LocalDateTime startDate2 = LocalDateTime.now().plusDays(2);
         addCourse(new Drug(256), startDate2, null, takingTime2, 2);
 
         //every day at 8.00, 9.00, 10.00, 11.00, 12.00, 13.00, start - now, end - now + 15 days
@@ -73,8 +73,8 @@ public class PillsDBHelper extends SQLiteAssetHelper {
         takingTime3.add(new LocalTime(11, 0));
         takingTime3.add(new LocalTime(12, 0));
         takingTime3.add(new LocalTime(13, 0));
-        Instant startDate3 = Instant.now();
-        Instant endDate3 = Instant.now().plus(Duration.standardDays(15));
+        LocalDateTime startDate3 = LocalDateTime.now();
+        LocalDateTime endDate3 = LocalDateTime.now().plusDays(15);
         addCourse(new Drug(512), startDate3, endDate3, takingTime3, 1);
     }
 
@@ -100,8 +100,8 @@ public class PillsDBHelper extends SQLiteAssetHelper {
 
                 int courseID = courseCursor.getInt(idIndex);
                 Drug drug = new Drug(courseCursor.getInt(drugIdIndex));
-                Instant start = new Instant(courseCursor.getLong(startIndex));
-                Instant end = courseCursor.isNull(endIndex) ? null: new Instant(courseCursor.getLong(endIndex));
+                LocalDateTime start = new Instant(courseCursor.getLong(startIndex)).toDateTime().toLocalDateTime();
+                LocalDateTime end = courseCursor.isNull(endIndex) ? null: new Instant(courseCursor.getLong(endIndex)).toDateTime().toLocalDateTime();
                 List<LocalTime> takingTime = new ArrayList<>();
                 int intervalInDays = courseCursor.getInt(intervalIndex);
 
@@ -143,11 +143,11 @@ public class PillsDBHelper extends SQLiteAssetHelper {
         db.execSQL("insert into taking_time(time, course_id) " + selectForInsertTakingTimes.toString());
     }
 
-    private int insertCourse(Drug drug, Instant startDate, Instant endDate, int intervalInDays){
+    private int insertCourse(Drug drug, LocalDateTime startDate, LocalDateTime endDate, int intervalInDays){
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("insert into course(drug_id, start, end, interval) " +
-                "values(" + drug.getId() + "," + startDate.getMillis() + "," +
-                (endDate == null ? null: endDate.getMillis()) + "," + intervalInDays + ")");
+                "values(" + drug.getId() + "," + startDate.toDateTime().toInstant().getMillis() + "," +
+                (endDate == null ? null: endDate.toDateTime().toInstant().getMillis()) + "," + intervalInDays + ")");
         Cursor cursor = db.rawQuery("select last_insert_rowid() inserted_id", null);
         cursor.moveToFirst();
         int courseID = cursor.getInt(cursor.getColumnIndex("inserted_id"));
@@ -155,7 +155,7 @@ public class PillsDBHelper extends SQLiteAssetHelper {
         return courseID;
     }
 
-    public Course addCourse(Drug drug, Instant startDate, Instant endDate, List<LocalTime> takingTime, int intervalInDays){
+    public Course addCourse(Drug drug, LocalDateTime startDate, LocalDateTime endDate, List<LocalTime> takingTime, int intervalInDays){
         int courseID = insertCourse(drug, startDate, endDate, intervalInDays);
         insertTakingTime(courseID, takingTime);
         return new Course(courseID, drug, startDate, endDate, takingTime, intervalInDays);
