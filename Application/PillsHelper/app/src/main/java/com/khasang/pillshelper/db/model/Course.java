@@ -90,6 +90,10 @@ public class Course {
         return getAllAdoptionsByPeriod(day.toDateTimeAtStartOfDay().toLocalDateTime(), day.toDateTimeAtStartOfDay().toLocalDateTime().plusDays(1));
     }
 
+    public static List<Adoption> getAdoptionsForToday(){
+        return getAdoptionsForDay(LocalDate.now());
+    }
+
     /**
      * Get list of instants(in other words timestamps) which represent
      * the schedule taking drugs limited begin date and end date
