@@ -1,12 +1,17 @@
 package com.khasang.pillshelper;
 
 
+import android.app.AlarmManager;
 import android.app.FragmentManager;
 
 import android.app.FragmentTransaction;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -27,6 +32,8 @@ import com.khasang.pillshelper.fragments.CurrentCourseFragment;
 import com.khasang.pillshelper.fragments.MainFragment;
 import com.khasang.pillshelper.fragments.NewCourseFragment;
 import com.khasang.pillshelper.fragments.PillsFragment;
+import com.khasang.pillshelper.notification.NotificationHelper;
+import com.khasang.pillshelper.notification.NotificationPublisher;
 
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
@@ -95,8 +102,10 @@ public class DrawerActivity extends AppCompatActivity
 
     private void initDB(){
         new AsyncTask<Context, Void, Void>(){
+            private Context context;
             @Override
             protected Void doInBackground(Context... params) {
+                this.context = params[0];
                 PillsDBHelper.init(params[0]);
                 return null;
             }
@@ -120,6 +129,9 @@ public class DrawerActivity extends AppCompatActivity
                         Log.d("grol", course.getDrug().getName() + " " + localDateTime.toString());
                     }
                 }
+
+                //NotificationHelper.scheduleNotification(context, NotificationHelper.getNotification(context, "Прими что нибудь"), 10000);
+                NotificationHelper.refreshNotification(context);
             }
         }.execute(this);
     }
