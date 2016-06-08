@@ -14,6 +14,10 @@ import java.util.List;
 public class Course {
     private int courseID;
 
+
+    /**
+     * The Drug for this course (one course - one drug)
+     */
     private Drug drug;
 
     /**
@@ -48,6 +52,9 @@ public class Course {
         this.intervalInDays = intervalInDays;
     }
 
+    /**
+     * Course.Adoption class represents adoption which contains notices what drug to take and at what time
+     */
     public static class Adoption implements Comparable<Adoption>{
         public LocalDateTime timestamp;
         public Drug drug;
@@ -73,6 +80,13 @@ public class Course {
         PillsDBHelper.getInstance().deleteCourse(courseID);
     }
 
+    /**
+     * Get list of Adoption, which represents
+     * the schedule taking drugs (for all courses) limited begin date and end date
+     * @param begin
+     * @param end
+     * @return list of Adoption
+     */
     public static List<Adoption> getAllAdoptionsByPeriod(LocalDateTime begin, LocalDateTime end){
         List<Adoption> result = new ArrayList<>();
         List<Course> courses = PillsDBHelper.getInstance().getCourses();
@@ -86,20 +100,31 @@ public class Course {
         return result;
     }
 
+    /**
+     * Get list of Adoption, which represents
+     * the schedule taking drugs (for all courses) for a certain day
+     * @param day
+     * @return list of Adoption
+     */
     public static List<Adoption> getAdoptionsForDay(LocalDate day){
         return getAllAdoptionsByPeriod(day.toDateTimeAtStartOfDay().toLocalDateTime(), day.toDateTimeAtStartOfDay().toLocalDateTime().plusDays(1));
     }
 
+    /**
+     * Get list of Adoption, which represents
+     * the schedule taking drugs (for all courses) for today
+     * @return list of Adoption
+     */
     public static List<Adoption> getAdoptionsForToday(){
         return getAdoptionsForDay(LocalDate.now());
     }
 
     /**
-     * Get list of instants(in other words timestamps) which represent
-     * the schedule taking drugs limited begin date and end date
+     * Get list of LocalDateTime, which represents
+     * the schedule taking drug (for this course) limited begin date and end date
      * @param begin
      * @param end
-     * @return instants
+     * @return list of LocalDateTime
      */
     public List<LocalDateTime> getSchedule(LocalDateTime begin, LocalDateTime end){
         List<LocalDateTime> localDateTimes = new ArrayList<>();
