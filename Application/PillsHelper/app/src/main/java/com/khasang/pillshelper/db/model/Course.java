@@ -1,5 +1,7 @@
 package com.khasang.pillshelper.db.model;
 
+import android.support.annotation.NonNull;
+
 import com.khasang.pillshelper.db.PillsDBHelper;
 
 import org.joda.time.Instant;
@@ -13,7 +15,6 @@ import java.util.List;
 
 public class Course {
     private int courseID;
-
 
     /**
      * The Drug for this course (one course - one drug)
@@ -63,7 +64,7 @@ public class Course {
             this.drug = drug;
         }
         @Override
-        public int compareTo(Adoption another) {
+        public int compareTo(@NonNull Adoption another) {
             return timestamp.compareTo(another.timestamp);
         }
     }
@@ -83,8 +84,8 @@ public class Course {
     /**
      * Get list of Adoption, which represents
      * the schedule taking drugs (for all courses) limited begin date and end date
-     * @param begin
-     * @param end
+     * @param begin begin date
+     * @param end end date
      * @return list of Adoption
      */
     public static List<Adoption> getAllAdoptionsByPeriod(LocalDateTime begin, LocalDateTime end){
@@ -103,7 +104,7 @@ public class Course {
     /**
      * Get list of Adoption, which represents
      * the schedule taking drugs (for all courses) for a certain day
-     * @param day
+     * @param day certain day as LocalDate
      * @return list of Adoption
      */
     public static List<Adoption> getAdoptionsForDay(LocalDate day){
@@ -122,8 +123,8 @@ public class Course {
     /**
      * Get list of LocalDateTime, which represents
      * the schedule taking drug (for this course) limited begin date and end date
-     * @param begin
-     * @param end
+     * @param begin begin date
+     * @param end end date
      * @return list of LocalDateTime
      */
     public List<LocalDateTime> getSchedule(LocalDateTime begin, LocalDateTime end){

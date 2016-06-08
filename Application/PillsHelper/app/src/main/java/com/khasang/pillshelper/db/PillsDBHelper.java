@@ -8,9 +8,7 @@ import com.khasang.pillshelper.db.model.Course;
 import com.khasang.pillshelper.db.model.Drug;
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
-import org.joda.time.Duration;
 import org.joda.time.Instant;
-import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.joda.time.LocalTime;
 
