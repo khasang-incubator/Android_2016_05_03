@@ -1,28 +1,35 @@
 package com.khasang.pillshelper.db.model;
 
+import android.support.annotation.NonNull;
+
 import com.khasang.pillshelper.db.PillsDBHelper;
 
-import org.joda.time.Duration;
 import org.joda.time.Instant;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 import org.joda.time.LocalTime;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Course {
     private int courseID;
 
+    /**
+     * The Drug for this course (one course - one drug)
+     */
     private Drug drug;
 
     /**
      * The date of begin of treatment
      */
-    private Instant startDate;
+    private LocalDateTime startDate;
 
     /**
      * The date of end of treatment
      */
-    private Instant endDate;
+    private LocalDateTime endDate;
 
     /**
      * List of time(without date) which represents intraday timestamps for take drug
@@ -36,7 +43,8 @@ public class Course {
      */
     private int intervalInDays;
 
-    public Course(int courseID, Drug drug, Instant startDate, Instant endDate, List<LocalTime> takingTime, int intervalInDays){
+    public Course(int courseID, Drug drug, LocalDateTime startDate, LocalDateTime endDate,
+                  List<LocalTime> takingTime, int intervalInDays){
         this.courseID = courseID;
         this.drug = drug;
         this.startDate = startDate;
@@ -45,7 +53,23 @@ public class Course {
         this.intervalInDays = intervalInDays;
     }
 
-    public static Course createCourse(Drug drug, Instant startDate, Instant endDate, List<LocalTime> takingTime, int intervalInDays){
+    /**
+     * Course.Adoption class represents adoption which contains notices what drug to take and at what time
+     */
+    public static class Adoption implements Comparable<Adoption>{
+        public LocalDateTime timestamp;
+        public Drug drug;
+        public Adoption(LocalDateTime timestamp, Drug drug){
+            this.timestamp = timestamp;
+            this.drug = drug;
+        }
+        @Override
+        public int compareTo(@NonNull Adoption another) {
+            return timestamp.compareTo(another.timestamp);
+        }
+    }
+
+    public static Course createCourse(Drug drug, LocalDateTime startDate, LocalDateTime endDate, List<LocalTime> takingTime, int intervalInDays){
         return PillsDBHelper.getInstance().addCourse(drug, startDate, endDate, takingTime, intervalInDays);
     }
 
@@ -58,29 +82,71 @@ public class Course {
     }
 
     /**
-     * Get list of instants(in other words timestamps) which represent
-     * the schedule taking drugs limited begin date and end date
-     * @param begin
-     * @param end
-     * @return instants
+     * Get list of Adoption, which represents
+     * the schedule taking drugs (for all courses) limited begin date and end date
+     * @param begin begin date
+     * @param end end date
+     * @return list of Adoption
      */
-    public List<Instant> getSchedule(Instant begin, Instant end){
-        List<Instant> instants = new ArrayList<>();
-        Instant currentInstant = startDate;
-        Instant endInstant = min(endDate, end);
-        Duration step = Duration.standardDays(intervalInDays);
-        while(currentInstant.isBefore(endInstant)){
-            if(!currentInstant.isBefore(begin)) {
-                for (LocalTime time : takingTime) {
-                    instants.add(time.toDateTime(currentInstant).toInstant());
-                }
+    public static List<Adoption> getAllAdoptionsByPeriod(LocalDateTime begin, LocalDateTime end){
+        List<Adoption> result = new ArrayList<>();
+        List<Course> courses = PillsDBHelper.getInstance().getCourses();
+        for(Course course: courses){
+            List<LocalDateTime> schedule = course.getSchedule(begin, end);
+            for(LocalDateTime localDateTime: schedule){
+                result.add(new Adoption(localDateTime, course.getDrug()));
             }
-            currentInstant = currentInstant.plus(step);
         }
-        return instants;
+        Collections.sort(result);
+        return result;
     }
 
-    private Instant min(Instant a, Instant b){
+    /**
+     * Get list of Adoption, which represents
+     * the schedule taking drugs (for all courses) for a certain day
+     * @param day certain day as LocalDate
+     * @return list of Adoption
+     */
+    public static List<Adoption> getAdoptionsForDay(LocalDate day){
+        return getAllAdoptionsByPeriod(day.toDateTimeAtStartOfDay().toLocalDateTime(), day.toDateTimeAtStartOfDay().toLocalDateTime().plusDays(1));
+    }
+
+    /**
+     * Get list of Adoption, which represents
+     * the schedule taking drugs (for all courses) for today
+     * @return list of Adoption
+     */
+    public static List<Adoption> getAdoptionsForToday(){
+        return getAdoptionsForDay(LocalDate.now());
+    }
+
+    /**
+     * Get list of LocalDateTime, which represents
+     * the schedule taking drug (for this course) limited begin date and end date
+     * @param begin begin date
+     * @param end end date
+     * @return list of LocalDateTime
+     */
+    public List<LocalDateTime> getSchedule(LocalDateTime begin, LocalDateTime end){
+        List<LocalDateTime> localDateTimes = new ArrayList<>();
+        LocalDateTime currentLocalDateTime = startDate;
+        LocalDateTime endInstant = min(endDate, end);
+        while(!currentLocalDateTime.isAfter(endInstant)){
+            if(!currentLocalDateTime.isBefore(begin)) {
+                for (LocalTime time : takingTime) {
+                    Instant baseInstant = currentLocalDateTime.toDateTime().toInstant();
+                    LocalDateTime localDateTime = time.toDateTime(baseInstant).toLocalDateTime();
+                    if(!localDateTime.isBefore(startDate)) {
+                        localDateTimes.add(localDateTime);
+                    }
+                }
+            }
+            currentLocalDateTime = currentLocalDateTime.plusDays(intervalInDays);
+        }
+        return localDateTimes;
+    }
+
+    private LocalDateTime min(LocalDateTime a, LocalDateTime b){
         return (a == null) ? b: (a.isAfter(b) ? b: a);
     }
 
@@ -96,11 +162,11 @@ public class Course {
         return courseID;
     }
 
-    public Instant getEndDate() {
+    public LocalDateTime getEndDate() {
         return endDate;
     }
 
-    public Instant getStartDate() {
+    public LocalDateTime getStartDate() {
         return startDate;
     }
 
