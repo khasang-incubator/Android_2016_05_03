@@ -86,7 +86,7 @@ public class Course {
         return result;
     }
 
-    public static List<Adoption> getAdoptionForDay(LocalDate day){
+    public static List<Adoption> getAdoptionsForDay(LocalDate day){
         return getAllAdoptionsByPeriod(day.toDateTimeAtStartOfDay().toLocalDateTime(), day.toDateTimeAtStartOfDay().toLocalDateTime().plusDays(1));
     }
 

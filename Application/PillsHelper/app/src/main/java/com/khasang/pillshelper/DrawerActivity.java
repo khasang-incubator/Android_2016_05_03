@@ -28,11 +28,8 @@ import com.khasang.pillshelper.fragments.MainFragment;
 import com.khasang.pillshelper.fragments.NewCourseFragment;
 import com.khasang.pillshelper.fragments.PillsFragment;
 
-import org.joda.time.Duration;
-import org.joda.time.Instant;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
-import org.joda.time.LocalTime;
 
 import java.util.List;
 
@@ -111,7 +108,7 @@ public class DrawerActivity extends AppCompatActivity
 
                 PillsDBHelper.getInstance().fillDBTest();
                 //List<Course.Adoption> adoptions = Course.getAllAdoptionsByPeriod(LocalDateTime.now().minusDays(2), LocalDateTime.now().plusDays(7));
-                List<Course.Adoption> adoptions = Course.getAdoptionForDay(LocalDate.now());
+                List<Course.Adoption> adoptions = Course.getAdoptionsForDay(LocalDate.now());
                 for(Course.Adoption adoption: adoptions){
                     Log.d("grol", adoption.timestamp + " " + adoption.drug.getName());
                 }
