@@ -5,7 +5,6 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import com.khasang.pillshelper.db.PillsDBHelper;
 
@@ -17,23 +16,26 @@ public class Job extends BroadcastReceiver {
 
     private static final int REQUEST_CODE = 1;
 
+    private static Context context;
+
+    public static void start(Context context){
+        Job.context = context.getApplicationContext();
+        scheduleNextRun(getStartDayByLocalDateTime(LocalDateTime.now()).plusDays(1));
+    }
+
     @Override
     public void onReceive(Context context, Intent intent) {
         PillsDBHelper.init(context);
-        NotificationHelper.refreshNotification(context);
-        scheduleNextRun(context, getStartDayByLocalDateTime(LocalDateTime.now()).plusDays(1));
+        NotificationHelper.refreshNotification();
+        scheduleNextRun(getStartDayByLocalDateTime(LocalDateTime.now()).plusDays(1));
     }
 
-    private static void scheduleNextRun(Context context, LocalDateTime time){
+    private static void scheduleNextRun(LocalDateTime time){
         Intent notificationIntent = new Intent(context, Job.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, REQUEST_CODE, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         long mills = time.toDateTime().toInstant().getMillis();
         alarmManager.set(AlarmManager.RTC, mills, pendingIntent);
-    }
-
-    public static void start(Context context){
-        scheduleNextRun(context, getStartDayByLocalDateTime(LocalDateTime.now()).plusDays(1));
     }
 
     private static LocalDateTime getStartDayByLocalDateTime(LocalDateTime localDateTime){
