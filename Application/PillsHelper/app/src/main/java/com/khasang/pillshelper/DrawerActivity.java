@@ -115,28 +115,8 @@ public class DrawerActivity extends AppCompatActivity
                 super.onPostExecute(aVoid);
                 MenuItem allPillsItem = navigation_view_menu.findItem(R.id.all_pills);
                 allPillsItem.setEnabled(true);
-
-                PillsDBHelper.getInstance().fillDBTest();
-
-                /*
-                List<Course.Adoption> adoptions = Course.getAllAdoptionsByPeriod(LocalDateTime.now(), LocalDateTime.now().plusDays(7));
-
-                //List<Course.Adoption> adoptions = Course.getAdoptionsForDay(LocalDate.now());
-                for(Course.Adoption adoption: adoptions){
-                    Log.d("grol", adoption.timestamp + " " + adoption.drug.getName());
-                }
-
-                List<Course> courses = PillsDBHelper.getInstance().getCourses();
-                for(Course course: courses){
-                    List<LocalDateTime> instants = course.getSchedule(LocalDateTime.now(), LocalDateTime.now().plusDays(7));
-                    for(LocalDateTime localDateTime: instants){
-                        Log.d("grol", course.getDrug().getName() + " " + localDateTime.toString());
-                    }
-                }
-
-                */
-                //NotificationHelper.scheduleNotification(context, NotificationHelper.getNotification(context, "Прими что нибудь"), 10000);
                 NotificationHelper.init(context);
+                PillsDBHelper.getInstance().fillDBTest();
             }
         }.execute(this);
     }
