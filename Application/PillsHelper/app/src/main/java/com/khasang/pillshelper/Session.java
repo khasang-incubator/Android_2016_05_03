@@ -1,5 +1,7 @@
 package com.khasang.pillshelper;
 
+import com.khasang.pillshelper.optional.Course;
+
 import java.util.List;
 
 /**

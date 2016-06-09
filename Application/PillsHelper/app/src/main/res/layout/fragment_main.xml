@@ -1,54 +1,15 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragments.MainFragment">
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:padding="16dp"
+             tools:context=".fragments.MainFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:background="#ffffff"
-                android:layout_marginTop="20dp"
-                android:text="@string/morning"
-                android:drawableLeft="@drawable/ic_bt_morning" />
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:background="#ffffff"
-                android:layout_marginTop="20dp"
-                android:text="@string/sun"
-                android:drawableLeft="@drawable/ic_bt_sun"/>
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:background="#ffffff"
-                android:layout_marginTop="20dp"
-                android:text="@string/evening"
-                android:drawableLeft="@drawable/ic_bt_evening"/>
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:background="#ffffff"
-                android:layout_marginTop="20dp"
-                android:text="@string/night"
-                android:drawableLeft="@drawable/ic_bt_night"
-                android:layout_marginBottom="10dp" />
-
-        </LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/current_courses"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </FrameLayout>

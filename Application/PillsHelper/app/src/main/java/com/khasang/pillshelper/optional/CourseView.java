@@ -1,4 +1,4 @@
-package com.khasang.pillshelper;
+package com.khasang.pillshelper.optional;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -11,7 +11,9 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.khasang.pillshelper.R;
 import com.khasang.pillshelper.db.PillsDBHelper;
+import com.khasang.pillshelper.optional.Course;
 
 /**
  * Created by aleksandrlihovidov on 02.06.16.
