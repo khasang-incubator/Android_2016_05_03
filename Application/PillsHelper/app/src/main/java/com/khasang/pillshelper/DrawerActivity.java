@@ -32,6 +32,7 @@ import com.khasang.pillshelper.fragments.CurrentCourseFragment;
 import com.khasang.pillshelper.fragments.MainFragment;
 import com.khasang.pillshelper.fragments.NewCourseFragment;
 import com.khasang.pillshelper.fragments.PillsFragment;
+import com.khasang.pillshelper.notification.Job;
 import com.khasang.pillshelper.notification.NotificationHelper;
 import com.khasang.pillshelper.notification.NotificationPublisher;
 
@@ -135,7 +136,7 @@ public class DrawerActivity extends AppCompatActivity
 
                 */
                 //NotificationHelper.scheduleNotification(context, NotificationHelper.getNotification(context, "Прими что нибудь"), 10000);
-                NotificationHelper.refreshNotification(context);
+                NotificationHelper.init(context);
             }
         }.execute(this);
     }

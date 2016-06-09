@@ -18,6 +18,16 @@ public class NotificationHelper {
 
     private static final int REQUEST_CODE = 0;
 
+    public static void init(Context context){
+        refreshNotification(context);
+        Job.start(context);
+    }
+
+    public static void refreshNotification(Context context){
+        deleteCurrentNotification(context);
+        scheduleNextNotification(context);
+    }
+
     private static void scheduleNotification(Context context, Course.Adoption adoption) {
 
         Notification notification = getNotification(context, adoption);
@@ -36,11 +46,6 @@ public class NotificationHelper {
         builder.setContentText("Примите лекарство: " + adoption.drug.getName());
         builder.setSmallIcon(R.drawable.red_pill);
         return builder.build();
-    }
-
-    public static void refreshNotification(Context context){
-        deleteCurrentNotification(context);
-        scheduleNextNotification(context);
     }
 
     private static void deleteCurrentNotification(Context context){
