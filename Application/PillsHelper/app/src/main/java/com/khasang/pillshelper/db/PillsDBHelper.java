@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.khasang.pillshelper.db.model.Course;
 import com.khasang.pillshelper.db.model.Drug;
+import com.khasang.pillshelper.notification.NotificationHelper;
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
 import org.joda.time.Instant;
@@ -158,13 +159,16 @@ public class PillsDBHelper extends SQLiteAssetHelper {
     public Course addCourse(Drug drug, LocalDateTime startDate, LocalDateTime endDate, List<LocalTime> takingTime, int intervalInDays){
         int courseID = insertCourse(drug, startDate, endDate, intervalInDays);
         insertTakingTime(courseID, takingTime);
-        return new Course(courseID, drug, startDate, endDate, takingTime, intervalInDays);
+        Course course = new Course(courseID, drug, startDate, endDate, takingTime, intervalInDays);
+        NotificationHelper.refreshNotification();
+        return course;
     }
 
     public void deleteCourse(int courseID){
         SQLiteDatabase db = getWritableDatabase();
         String[] args = {String.valueOf(courseID)};
         db.delete("course", "_id = ?", args);
+        NotificationHelper.refreshNotification();
     }
 
     public List<Drug> getAllDrugs(){
