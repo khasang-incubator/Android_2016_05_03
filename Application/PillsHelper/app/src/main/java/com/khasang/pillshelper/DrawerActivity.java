@@ -74,11 +74,6 @@ public class DrawerActivity extends AppCompatActivity
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-
-                // TODO: 02.06.16 удалить после теста
-                Intent intent = new Intent(DrawerActivity.this, UserActivity.class);
-                intent.putExtra(UserActivity.DRUG_LIST, getDrugIdArray());
-                startActivity(intent);
             }
         });
 
@@ -92,10 +87,6 @@ public class DrawerActivity extends AppCompatActivity
         navigation_view_menu = navigationView.getMenu();
         navigationView.setNavigationItemSelectedListener(this);
 
-    }
-
-    private int[] getDrugIdArray() {
-        return new int[]{25, 187, 245, 903, 2841};
     }
 
     private void initDB(){

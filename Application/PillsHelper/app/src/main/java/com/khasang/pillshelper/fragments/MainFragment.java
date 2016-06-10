@@ -17,7 +17,6 @@ import com.khasang.pillshelper.db.model.CourseGroup;
 import java.util.Arrays;
 import java.util.List;
 
-
 public class MainFragment extends Fragment {
     private List<Course> allCourses;
     private CourseAdapter adapter;

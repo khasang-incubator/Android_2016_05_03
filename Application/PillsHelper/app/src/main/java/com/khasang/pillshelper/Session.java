@@ -1,6 +1,6 @@
 package com.khasang.pillshelper;
 
-import com.khasang.pillshelper.optional.Course;
+import com.khasang.pillshelper.db.model.Course;
 
 import java.util.List;
 

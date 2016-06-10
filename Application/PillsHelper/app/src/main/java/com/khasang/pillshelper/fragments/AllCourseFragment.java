@@ -1,6 +1,5 @@
 package com.khasang.pillshelper.fragments;
 
-
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,17 +17,14 @@ import com.khasang.pillshelper.db.model.Course;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * A simple {@link Fragment} subclass.
  */
 public class AllCourseFragment extends Fragment {
 
-
     public AllCourseFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

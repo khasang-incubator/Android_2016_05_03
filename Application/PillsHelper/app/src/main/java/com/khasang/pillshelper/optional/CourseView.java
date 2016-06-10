@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.khasang.pillshelper.R;
 import com.khasang.pillshelper.db.PillsDBHelper;
-import com.khasang.pillshelper.optional.Course;
+import com.khasang.pillshelper.db.model.Course;
 
 /**
  * Created by aleksandrlihovidov on 02.06.16.
@@ -87,7 +87,7 @@ public class CourseView extends TableLayout {
     private void createContent() {
         setColumnStretchable(0, true);
 
-        addView(createTextViewWithText(PillsDBHelper.getInstance().getDrugNameByID(course.getDrugId())));
+        addView(createTextViewWithText(PillsDBHelper.getInstance().getDrugNameByID(course.getID())));
         Space space = new Space(getContext());
         space.setMinimumHeight(16);
         addView(space);

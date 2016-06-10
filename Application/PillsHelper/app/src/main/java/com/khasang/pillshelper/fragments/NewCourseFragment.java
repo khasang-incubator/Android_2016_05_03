@@ -1,6 +1,5 @@
 package com.khasang.pillshelper.fragments;
 
-
 import android.content.Context;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -17,7 +16,6 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import com.khasang.pillshelper.R;
 import java.util.ArrayList;
-
 
 public class NewCourseFragment extends Fragment {
 
@@ -76,10 +74,6 @@ public class NewCourseFragment extends Fragment {
             }
         });
 
-
-
-
-
         autoCompleteTextView.setAdapter(new ArrayAdapter<String>(context, android.R.layout.simple_dropdown_item_1line,words));
         autoCompleteTextView.addTextChangedListener(new TextWatcher() {
             @Override
@@ -98,10 +92,7 @@ public class NewCourseFragment extends Fragment {
             }
         });
 
-
-
         return view;
     }
-
 
 }

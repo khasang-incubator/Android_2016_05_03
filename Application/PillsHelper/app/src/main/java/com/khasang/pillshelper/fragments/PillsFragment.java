@@ -26,7 +26,6 @@ import java.util.List;
 
 public class PillsFragment extends Fragment {
 
-
     public PillsFragment() {
     }
 
