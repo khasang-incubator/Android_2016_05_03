@@ -1,20 +1,24 @@
 package com.khasang.pillshelper.fragments;
 
 import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.support.v7.widget.RecyclerView;
-import android.widget.TextView;
 
+import com.khasang.pillshelper.CourseAdapter;
 import com.khasang.pillshelper.R;
 import com.khasang.pillshelper.db.PillsDBHelper;
 import com.khasang.pillshelper.db.model.Course;
+import com.khasang.pillshelper.db.model.CourseGroup;
+
+import org.joda.time.LocalTime;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -44,59 +48,45 @@ public class AllCourseFragment extends Fragment {
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.CoursesRecycler);
 
-        mLayoutManager = new LinearLayoutManager(view.getContext());
+        mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new CourseAdapter(PillsDBHelper.getInstance().getCourses());
+        List<CourseGroup> groups = getCourseGroups();
+
+        mAdapter = new CourseAdapter(getActivity(), groups);
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    static class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder> {
-        private List<Course> courses;
-        private List<Course> allCourses;
+    @NonNull
+    private List<CourseGroup> getCourseGroups() {
+        List<Course>[] courses = new List[4];
+        courses[0] = new ArrayList<>();
+        courses[1] = new ArrayList<>();
+        courses[2] = new ArrayList<>();
+        courses[3] = new ArrayList<>();
 
-        public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-            public TextView mTextView;
-            private Course item;
-
-            public ViewHolder(TextView v) {
-                super(v);
-                mTextView = v;
-                mTextView.setOnClickListener(this);
+        List<Course> allCourses = PillsDBHelper.getInstance().getCourses();
+        for (Course course : allCourses) {
+            List<LocalTime> times = course.getTakingTime();
+            for (LocalTime time : times) {
+                int t = time.getHourOfDay();
+                if (t < 6) {
+                    courses[3].add(course);
+                } else if (t < 12) {
+                    courses[0].add(course);
+                } else if (t < 18) {
+                    courses[1].add(course);
+                } else {
+                    courses[2].add(course);
+                }
             }
-
-            public void setItem(Course item){
-                this.item = item;
-                mTextView.setText(item.toString());
-                //mTextView.setText(item.drug.getName());
-            }
-
-            @Override
-            public void onClick(View v) {
-                // TODO: 04.06.16 открытые конкретного курса
-            }
         }
 
-        public CourseAdapter(List<Course> courses) {
-            this.courses = courses;
-            this.allCourses = courses;
-        }
-
-        @Override
-        public CourseAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            TextView v = (TextView) LayoutInflater.from(parent.getContext()).inflate(R.layout.course_item, parent, false);
-            return new ViewHolder(v);
-        }
-
-        @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
-            holder.setItem(courses.get(position));
-        }
-
-        @Override
-        public int getItemCount() {
-            return courses.size();
-        }
+        CourseGroup morningGroup = new CourseGroup("Morning", courses[0]);
+        CourseGroup dayGroup = new CourseGroup("Day", courses[1]);
+        CourseGroup eveningGroup = new CourseGroup("Evening", courses[2]);
+        CourseGroup nightGroup = new CourseGroup("Night", courses[3]);
+        return Arrays.asList(morningGroup, dayGroup, eveningGroup, nightGroup);
     }
 
 }
