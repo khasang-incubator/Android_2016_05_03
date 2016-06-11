@@ -59,6 +59,11 @@ public class UserActivity extends AppCompatActivity {
         public int getCount() {
             return 100;
         }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return "Object" + (position + 1);
+        }
     }
 
     public static class DayCoursesFragment extends Fragment {
