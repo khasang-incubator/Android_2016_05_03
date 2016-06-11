@@ -71,22 +71,23 @@ public class AllCourseFragment extends Fragment {
             for (LocalTime time : times) {
                 int t = time.getHourOfDay();
                 if (t < 6) {
-                    courses[3].add(course);
-                } else if (t < 12) {
                     courses[0].add(course);
-                } else if (t < 18) {
+                } else if (t < 12) {
                     courses[1].add(course);
-                } else {
+                } else if (t < 18) {
                     courses[2].add(course);
+                } else {
+                    courses[3].add(course);
                 }
             }
         }
 
-        CourseGroup morningGroup = new CourseGroup("Morning", courses[0]);
-        CourseGroup dayGroup = new CourseGroup("Day", courses[1]);
-        CourseGroup eveningGroup = new CourseGroup("Evening", courses[2]);
-        CourseGroup nightGroup = new CourseGroup("Night", courses[3]);
-        return Arrays.asList(morningGroup, dayGroup, eveningGroup, nightGroup);
+        CourseGroup nightGroup = new CourseGroup("Night", courses[0]);
+        CourseGroup morningGroup = new CourseGroup("Morning", courses[1]);
+        CourseGroup dayGroup = new CourseGroup("Day", courses[2]);
+        CourseGroup eveningGroup = new CourseGroup("Evening", courses[3]);
+
+        return Arrays.asList(nightGroup, morningGroup, dayGroup, eveningGroup);
     }
 
 }
