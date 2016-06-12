@@ -1,6 +1,7 @@
 package com.khasang.pillshelper.db.model;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.khasang.pillshelper.db.PillsDBHelper;
 
@@ -130,15 +131,13 @@ public class Course {
     public List<LocalDateTime> getSchedule(LocalDateTime begin, LocalDateTime end){
         List<LocalDateTime> localDateTimes = new ArrayList<>();
         LocalDateTime currentLocalDateTime = startDate;
-        LocalDateTime endInstant = min(endDate, end);
-        while(!currentLocalDateTime.isAfter(endInstant)){
-            if(!currentLocalDateTime.isBefore(begin)) {
-                for (LocalTime time : takingTime) {
-                    Instant baseInstant = currentLocalDateTime.toDateTime().toInstant();
-                    LocalDateTime localDateTime = time.toDateTime(baseInstant).toLocalDateTime();
-                    if(!localDateTime.isBefore(startDate)) {
-                        localDateTimes.add(localDateTime);
-                    }
+        LocalDateTime endLocalDateTime = min(endDate, end);
+        while(!currentLocalDateTime.isAfter(endLocalDateTime)){
+            for (LocalTime time : takingTime) {
+                Instant baseInstant = currentLocalDateTime.toDateTime().toInstant();
+                LocalDateTime localDateTime = time.toDateTime(baseInstant).toLocalDateTime();
+                if(!localDateTime.isBefore(startDate) && !localDateTime.isBefore(begin)) {
+                    localDateTimes.add(localDateTime);
                 }
             }
             currentLocalDateTime = currentLocalDateTime.plusDays(intervalInDays);

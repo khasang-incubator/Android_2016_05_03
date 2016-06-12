@@ -1,12 +1,17 @@
 package com.khasang.pillshelper;
 
 
+import android.app.AlarmManager;
 import android.app.FragmentManager;
 
 import android.app.FragmentTransaction;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -27,6 +32,9 @@ import com.khasang.pillshelper.fragments.CurrentCourseFragment;
 import com.khasang.pillshelper.fragments.MainFragment;
 import com.khasang.pillshelper.fragments.NewCourseFragment;
 import com.khasang.pillshelper.fragments.PillsFragment;
+import com.khasang.pillshelper.notification.Job;
+import com.khasang.pillshelper.notification.NotificationHelper;
+import com.khasang.pillshelper.notification.NotificationPublisher;
 
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
@@ -95,8 +103,10 @@ public class DrawerActivity extends AppCompatActivity
 
     private void initDB(){
         new AsyncTask<Context, Void, Void>(){
+            private Context context;
             @Override
             protected Void doInBackground(Context... params) {
+                this.context = params[0];
                 PillsDBHelper.init(params[0]);
                 return null;
             }
@@ -105,21 +115,8 @@ public class DrawerActivity extends AppCompatActivity
                 super.onPostExecute(aVoid);
                 MenuItem allPillsItem = navigation_view_menu.findItem(R.id.all_pills);
                 allPillsItem.setEnabled(true);
-
+                NotificationHelper.init(context);
                 PillsDBHelper.getInstance().fillDBTest();
-                //List<Course.Adoption> adoptions = Course.getAllAdoptionsByPeriod(LocalDateTime.now().minusDays(2), LocalDateTime.now().plusDays(7));
-                List<Course.Adoption> adoptions = Course.getAdoptionsForDay(LocalDate.now());
-                for(Course.Adoption adoption: adoptions){
-                    Log.d("grol", adoption.timestamp + " " + adoption.drug.getName());
-                }
-
-                List<Course> courses = PillsDBHelper.getInstance().getCourses();
-                for(Course course: courses){
-                    List<LocalDateTime> instants = course.getSchedule(LocalDateTime.now().minusDays(2), LocalDateTime.now().plusDays(7));
-                    for(LocalDateTime localDateTime: instants){
-                        Log.d("grol", course.getDrug().getName() + " " + localDateTime.toString());
-                    }
-                }
             }
         }.execute(this);
     }
