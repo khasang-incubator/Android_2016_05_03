@@ -27,13 +27,14 @@
             android:id="@+id/background_two">
 
         </RelativeLayout>
-        <LinearLayout
+        <!--<LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical">-->
 
 
-            <Button
+           <!-- <TextView
+                android:id="@+id/first_tv_start_menu"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
@@ -42,7 +43,8 @@
                 android:text="@string/morning"
                 android:drawableLeft="@drawable/ic_bt_morning" />
 
-            <Button
+            <TextView
+                android:id="@+id/second_tv_start_menu"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
@@ -51,7 +53,8 @@
                 android:text="@string/sun"
                 android:drawableLeft="@drawable/ic_bt_sun"/>
 
-            <Button
+            <TextView
+                android:id="@+id/third_tv_start_menu"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
@@ -60,17 +63,23 @@
                 android:text="@string/evening"
                 android:drawableLeft="@drawable/ic_bt_evening"/>
 
-            <Button
+            <TextView
+                android:id="@+id/four_tv_start_menu"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:layout_marginTop="20dp"
                 android:text="@string/night"
-                android:drawableLeft="@drawable/ic_bt_night"/>
+                android:drawableLeft="@drawable/ic_bt_night"/>-->
 
-        </LinearLayout>
+       <!-- </LinearLayout>-->
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/container_start"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
 
     </LinearLayout>
 
