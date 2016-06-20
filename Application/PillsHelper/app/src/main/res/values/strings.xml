@@ -37,6 +37,7 @@
     <string name="evening">Вечер</string>
     <string name="sun">День</string>
     <string name="night">Ночь</string>
+    <string name="button_respons">Пришло время пилюль!</string>
 
 
 </resources>

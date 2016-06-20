@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.khasang.pillshelper.AlarmReceiver;
+import com.khasang.pillshelper.PillsCourseService;
 import com.khasang.pillshelper.R;
 
 import java.util.Calendar;
@@ -93,13 +94,14 @@ public class NewCourseFragment extends Fragment {
         mTimeTextView.setText("Сигнализация установлена на ");
         mTimeTextView.append(String.valueOf(targetCal.getTime()));
 
-        Intent intent = new Intent(getActivity(), AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                getActivity(), RQS_TIME, intent, 0);
-        AlarmManager alarmManager = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
-               targetCal.getTimeInMillis(), 5000, pendingIntent);;
+        Intent intent = new Intent(getActivity(), PillsCourseService.class);
+        intent.putExtra(PillsCourseService.EXTRA_MESSAGE,
+                getResources().getString(R.string.button_respons));
+        getActivity().startService(intent);
     }
+
+
+
     private void cancelAlarm() {
         mTimeTextView.setText("Сигнализация отменена!");
 
