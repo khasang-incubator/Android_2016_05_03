@@ -4,6 +4,7 @@ package com.khasang.pillshelper.fragments;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,7 +60,9 @@ public class AllCourseFragment extends Fragment {
         private List<Course> courses;
         private List<Course> allCourses;
 
-        public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+                , View.OnLongClickListener
+        {
             public TextView mTextView;
             private Course item;
 
@@ -67,6 +70,7 @@ public class AllCourseFragment extends Fragment {
                 super(v);
                 mTextView = v;
                 mTextView.setOnClickListener(this);
+                mTextView.setOnLongClickListener(this);
             }
 
             public void setItem(Course item){
@@ -78,6 +82,17 @@ public class AllCourseFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // TODO: 04.06.16 открытые конкретного курса
+                Snackbar.make(v, "Opening this course", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+
+            }
+
+            @Override
+            public boolean onLongClick(View v) {
+                // TODO: удаление конкретного курса
+                Snackbar.make(v, "WARNING! Removing this course", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                return true;
             }
         }
 
