@@ -71,8 +71,8 @@ public class AllCourseFragment extends Fragment {
 
             public void setItem(Course item){
                 this.item = item;
-                mTextView.setText(item.toString());
-                //mTextView.setText(item.drug.getName());
+                //mTextView.setText(item.toString());
+                mTextView.setText(item.getDrug().getName());
             }
 
             @Override
