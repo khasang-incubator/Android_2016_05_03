@@ -55,7 +55,6 @@ public class MainFragment extends Fragment {
         List<Course.Adoption> afternoonAdoprions = new ArrayList<>();
         List<Course.Adoption> eveningAdoprions = new ArrayList<>();
         for(Course.Adoption adoption: todayAdoptions){
-            Log.d("grol", adoption.timestamp.toString() + " " + adoption.drug.getName());
             int hourOfDay = adoption.timestamp.getHourOfDay();
             if(hourOfDay < 6){
                 nightAdoprions.add(adoption);
