@@ -45,12 +45,12 @@ public class PillsDBHelper extends SQLiteAssetHelper {
         SQLiteDatabase db = getWritableDatabase();
         db.delete("course", null, null);
         db.delete("taking_time", null, null);
-        //every day at 9.00, 16.00 and 23.00, start - now, end - undefined
+        //every day at 9.00, 16.00 and 23.00, start - yesterday, end - undefined
         List<LocalTime> takingTime0 = new ArrayList<>();
         takingTime0.add(new LocalTime(9, 0));
         takingTime0.add(new LocalTime(16, 0));
         takingTime0.add(new LocalTime(23, 0));
-        LocalDateTime startDate0 = LocalDateTime.now();
+        LocalDateTime startDate0 = LocalDateTime.now().minusDays(1);
         addCourse(new Drug(64), startDate0, null, takingTime0, 1);
 
         //every 5th day at 19.00, start - now, end - undefined
