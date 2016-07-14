@@ -28,4 +28,5 @@ dependencies {
     compile 'com.readystatesoftware.sqliteasset:sqliteassethelper:+'
     compile 'com.google.android.gms:play-services-appindexing:8.1.0'
     compile group: 'joda-time', name: 'joda-time', version: '2.9.4'
+    compile 'com.bignerdranch.android:expandablerecyclerview:2.1.1'
 }
