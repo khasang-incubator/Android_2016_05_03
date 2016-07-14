@@ -38,6 +38,13 @@ public class DrawerActivity extends AppCompatActivity
 
     private Menu navigation_view_menu;
 
+    void initMainFragment(){
+        frMain.setArguments(getIntent().getExtras());
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.container, frMain).commit();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +57,8 @@ public class DrawerActivity extends AppCompatActivity
         frCurrentCourse = new CurrentCourseFragment();
         frMain = new MainFragment();
         frAllPills = new PillsFragment();
+
+        /*
         if (savedInstanceState == null) {
             frMain.setArguments(getIntent().getExtras());
             FragmentManager fragmentManager = getFragmentManager();
@@ -57,6 +66,7 @@ public class DrawerActivity extends AppCompatActivity
 
             fragmentTransaction.add(R.id.container, frMain).commit();
         }
+        */
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -102,6 +112,7 @@ public class DrawerActivity extends AppCompatActivity
                 allPillsItem.setEnabled(true);
                 NotificationHelper.init(context);
                 PillsDBHelper.getInstance().fillDBTest();
+                initMainFragment();
             }
         }.execute(this);
     }
