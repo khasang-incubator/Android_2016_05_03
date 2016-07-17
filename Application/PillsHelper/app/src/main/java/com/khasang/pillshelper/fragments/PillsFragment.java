@@ -24,7 +24,7 @@ import com.khasang.pillshelper.db.model.Drug;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PillsFragment extends Fragment {
+public class PillsFragment extends android.support.v4.app.Fragment {
 
 
     public PillsFragment() {

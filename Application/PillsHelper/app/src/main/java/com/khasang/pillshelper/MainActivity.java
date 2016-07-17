@@ -46,7 +46,7 @@ public class MainActivity extends Activity {
 
     private void selectItem(int position) {
         currentPosition = position;
-        Fragment fragment;
+        android.support.v4.app.Fragment fragment;
         switch (position){
             case 1:
                 fragment = new NewCourseFragment();
@@ -57,11 +57,8 @@ public class MainActivity extends Activity {
             case 3:
                 fragment = new CurrentCourseFragment();
                 break;
-            default:
-                fragment = new MainFragment();
         }
         FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.replace(R.id.container, fragment, "visible_fragment");
         ft.addToBackStack(null);
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         ft.commit();
@@ -122,18 +119,6 @@ public class MainActivity extends Activity {
                     public void onBackStackChanged() {
                         FragmentManager fragmentManager = getFragmentManager();
                         Fragment fragment = fragmentManager.findFragmentByTag("visible_fragment");
-                        if (fragment instanceof MainFragment){
-                            currentPosition = 0;
-                        }
-                        if (fragment instanceof NewCourseFragment){
-                            currentPosition = 1;
-                        }
-                        if (fragment instanceof AllCourseFragment){
-                            currentPosition = 2;
-                        }
-                        if (fragment instanceof CurrentCourseFragment){
-                            currentPosition = 3;
-                        }
                         setActionBarTitle(currentPosition);
                         drawerList.setItemChecked(currentPosition, true);
                     }

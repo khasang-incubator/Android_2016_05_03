@@ -56,8 +56,8 @@ public class DrawerActivity extends AppCompatActivity
 
     void initMainFragment(){
         frMain.setArguments(getIntent().getExtras());
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+        android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.container, frMain).commit();
     }
 
@@ -169,7 +169,7 @@ public class DrawerActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
         if (id == R.id.new_course) {
             ft.replace(R.id.container, frNewCourse);
@@ -197,7 +197,7 @@ public class DrawerActivity extends AppCompatActivity
 
     public void onClickMainFragment(View view) {
 
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.container, frMain);
         ft.commit();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -13,7 +13,7 @@ import com.khasang.pillshelper.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NewCourseFragment extends Fragment {
+public class NewCourseFragment extends android.support.v4.app.Fragment {
 
 
     public NewCourseFragment() {
