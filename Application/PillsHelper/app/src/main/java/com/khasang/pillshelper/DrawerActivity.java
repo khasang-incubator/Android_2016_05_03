@@ -28,7 +28,6 @@ import android.view.View;
 import com.khasang.pillshelper.db.PillsDBHelper;
 import com.khasang.pillshelper.db.model.Course;
 import com.khasang.pillshelper.fragments.AllCourseFragment;
-import com.khasang.pillshelper.fragments.CurrentCourseFragment;
 import com.khasang.pillshelper.fragments.MainFragment;
 import com.khasang.pillshelper.fragments.NewCourseFragment;
 import com.khasang.pillshelper.fragments.PillsFragment;
@@ -47,7 +46,6 @@ public class DrawerActivity extends AppCompatActivity
 
     private NewCourseFragment frNewCourse;
     private AllCourseFragment frAllCorse;
-    private CurrentCourseFragment frCurrentCourse;
     private MainFragment frMain;
     private PillsFragment frAllPills;
     private int currentPosition = 0;
@@ -70,7 +68,6 @@ public class DrawerActivity extends AppCompatActivity
 
         frNewCourse = new NewCourseFragment();
         frAllCorse = new AllCourseFragment();
-        frCurrentCourse = new CurrentCourseFragment();
         frMain = new MainFragment();
         frAllPills = new PillsFragment();
 
@@ -176,9 +173,6 @@ public class DrawerActivity extends AppCompatActivity
 
         } else if (id == R.id.all_course) {
             ft.replace(R.id.container, frAllCorse);
-
-        } else if (id == R.id.current_course) {
-            ft.replace(R.id.container, frCurrentCourse);
 
         } else if (id == R.id.all_pills) {
             ft.replace(R.id.container, frAllPills);
