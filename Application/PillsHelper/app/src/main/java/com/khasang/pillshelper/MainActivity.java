@@ -19,8 +19,6 @@ import android.widget.ListView;
 import android.widget.ShareActionProvider;
 
 import com.khasang.pillshelper.fragments.AllCourseFragment;
-import com.khasang.pillshelper.fragments.CurrentCourseFragment;
-import com.khasang.pillshelper.fragments.MainFragment;
 import com.khasang.pillshelper.fragments.NewCourseFragment;
 
 public class MainActivity extends Activity {
@@ -53,9 +51,6 @@ public class MainActivity extends Activity {
                 break;
             case 2:
                 fragment = new AllCourseFragment();
-                break;
-            case 3:
-                fragment = new CurrentCourseFragment();
                 break;
         }
         FragmentTransaction ft = getFragmentManager().beginTransaction();

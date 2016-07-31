@@ -31,7 +31,6 @@
     <string name="mail_khasang">android.khasang.com</string>
     <string name="new_course">Добавить новый курс</string>
     <string name="all_course">Просмотреть все курсы лечения</string>
-    <string name="current_course">Просмотреть текущий курс лечения</string>
     <string name="all_pills">Справочник лекарств</string>
     <string name="morning">Утро</string>
     <string name="evening">Вечер</string>
