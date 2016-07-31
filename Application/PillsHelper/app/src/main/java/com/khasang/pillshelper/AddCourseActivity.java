@@ -1,25 +1,22 @@
-package com.khasang.pillshelper.fragments;
-
+package com.khasang.pillshelper;
 
 import android.content.Context;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import com.khasang.pillshelper.R;
+import android.widget.TimePicker;
+
 import java.util.ArrayList;
 
-
-public class NewCourseFragment extends Fragment {
+public class AddCourseActivity extends AppCompatActivity {
 
     private Context context;
     private String[] words = {"Аспирин", "Аскорбин", "Спазмалгон", "Асмоапо", "Апосмо", "асмамооо", "аывпыавп", "Апекууаи", "Аквсмм", "апуцйфвва"};
@@ -28,24 +25,24 @@ public class NewCourseFragment extends Fragment {
     private Spinner spinner;
     private ArrayList<CheckBox> days;
     private String[] daysArray;
-
-    public NewCourseFragment() {
-    }
+    private TimePicker timePicker;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_add_course, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_add_course);
 
-        context = view.getContext();
-        group = (RadioGroup) view.findViewById(R.id.group);
-        autoCompleteTextView = (AutoCompleteTextView) view.findViewById(R.id.autoComplete);
-        spinner = (Spinner) view.findViewById(R.id.spinner);
+        group = (RadioGroup) this.findViewById(R.id.group);
+        autoCompleteTextView = (AutoCompleteTextView) this.findViewById(R.id.autoComplete);
+        spinner = (Spinner) this.findViewById(R.id.spinner);
         daysArray = getResources().getStringArray(R.array.days);
         days = new ArrayList<>();
+        timePicker = (TimePicker) this.findViewById(R.id.timePicker);
+
+        timePicker.setIs24HourView(true);
 
         for (int i = 0; i < 7; i++){
-            CheckBox box = new CheckBox(context);
+            CheckBox box = new CheckBox(this);
             box.setText(daysArray[i]);
             days.add(box);
         }
@@ -76,11 +73,7 @@ public class NewCourseFragment extends Fragment {
             }
         });
 
-
-
-
-
-        autoCompleteTextView.setAdapter(new ArrayAdapter<String>(context, android.R.layout.simple_dropdown_item_1line,words));
+        autoCompleteTextView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line,words));
         autoCompleteTextView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -98,10 +91,6 @@ public class NewCourseFragment extends Fragment {
             }
         });
 
-
-
-        return view;
     }
-
-
 }
+

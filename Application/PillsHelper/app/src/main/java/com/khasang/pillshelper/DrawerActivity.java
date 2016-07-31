@@ -43,8 +43,6 @@ import java.util.List;
 public class DrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-
-    private NewCourseFragment frNewCourse;
     private AllCourseFragment frAllCorse;
     private MainFragment frMain;
     private PillsFragment frAllPills;
@@ -66,7 +64,6 @@ public class DrawerActivity extends AppCompatActivity
 
         initDB();
 
-        frNewCourse = new NewCourseFragment();
         frAllCorse = new AllCourseFragment();
         frMain = new MainFragment();
         frAllPills = new PillsFragment();
@@ -169,7 +166,8 @@ public class DrawerActivity extends AppCompatActivity
         android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
         if (id == R.id.new_course) {
-            ft.replace(R.id.container, frNewCourse);
+            //ft.replace(R.id.container, frNewCourse);
+            startActivity(new Intent(this, AddCourseActivity.class));
 
         } else if (id == R.id.all_course) {
             ft.replace(R.id.container, frAllCorse);
