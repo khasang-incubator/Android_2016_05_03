@@ -189,6 +189,20 @@ public class PillsDBHelper extends SQLiteAssetHelper {
         return result;
     }
 
+    public Drug getDrugByName(String name){
+        SQLiteDatabase db = getReadableDatabase();
+        String[] args = {name};
+        Cursor result = db.rawQuery("select _id from drug where name = ?", args);
+        if(result.getCount() == 0){
+            return null;
+        }
+        result.moveToFirst();
+        int columnIndex = result.getColumnIndex("_id");
+        int id = result.getInt(columnIndex);
+        result.close();
+        return new Drug(id);
+    }
+
     private String selectDrugAttr(String sql, int id, String attr){
         SQLiteDatabase db = getReadableDatabase();
         String[] args = {String.valueOf(id)};
