@@ -28,10 +28,12 @@ import com.khasang.pillshelper.db.PillsDBHelper;
 import com.khasang.pillshelper.db.model.Drug;
 
 import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 import org.joda.time.LocalTime;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class AddCourseActivity extends AppCompatActivity {
 
@@ -44,26 +46,32 @@ public class AddCourseActivity extends AppCompatActivity {
     private TimePicker timePicker;
     private EditText number_of_takes;
     private LinearLayout time_container;
-    private static Button startDate;
-    private static Button endDate;
+    private static Button buttonStartDate;
+    private static Button buttonEndDate;
     private static Button currentButton;
 
+
+    Drug drug;
+    LocalDateTime startDate;
+    LocalDateTime endDate;
+    List<LocalTime> takingTime;
+    int intervalInDays;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_course);
 
-        startDate = (Button) findViewById(R.id.start_date);
-        startDate.setOnClickListener(new View.OnClickListener() {
+        buttonStartDate = (Button) findViewById(R.id.start_date);
+        buttonStartDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogFragment newFragment = new StartDatePickFragment();
                 newFragment.show(getSupportFragmentManager(), "datePicker");
             }
         });
-        endDate = (Button) findViewById(R.id.end_date);
-        endDate.setOnClickListener(new View.OnClickListener() {
+        buttonEndDate = (Button) findViewById(R.id.end_date);
+        buttonEndDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogFragment newFragment = new EndDatePickFragment();
@@ -86,9 +94,10 @@ public class AddCourseActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                drug = PillsDBHelper.getInstance().getDrugByName(s.toString());
             }
         });
+
         time_container = (LinearLayout) findViewById(R.id.time_container);
 
         number_of_takes = (EditText) findViewById(R.id.number_of_takes);
@@ -166,7 +175,7 @@ public class AddCourseActivity extends AppCompatActivity {
 
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            startDate.setText(new LocalDate(year,monthOfYear,dayOfMonth).toString("yyyy.MM.dd"));
+            buttonStartDate.setText(new LocalDate(year,monthOfYear,dayOfMonth).toString("yyyy.MM.dd"));
         }
     }
 
@@ -186,7 +195,7 @@ public class AddCourseActivity extends AppCompatActivity {
 
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            endDate.setText(new LocalDate(year,monthOfYear,dayOfMonth).toString("yyyy.MM.dd"));
+            buttonEndDate.setText(new LocalDate(year,monthOfYear,dayOfMonth).toString("yyyy.MM.dd"));
         }
     }
 }
