@@ -29,7 +29,6 @@ import com.khasang.pillshelper.db.PillsDBHelper;
 import com.khasang.pillshelper.db.model.Course;
 import com.khasang.pillshelper.fragments.AllCourseFragment;
 import com.khasang.pillshelper.fragments.MainFragment;
-import com.khasang.pillshelper.fragments.NewCourseFragment;
 import com.khasang.pillshelper.fragments.PillsFragment;
 import com.khasang.pillshelper.notification.Job;
 import com.khasang.pillshelper.notification.NotificationHelper;
