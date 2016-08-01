@@ -23,8 +23,10 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.khasang.pillshelper.db.PillsDBHelper;
+import com.khasang.pillshelper.db.model.Course;
 import com.khasang.pillshelper.db.model.Drug;
 
 import org.joda.time.LocalDate;
@@ -49,13 +51,26 @@ public class AddCourseActivity extends AppCompatActivity {
     private static Button buttonStartDate;
     private static Button buttonEndDate;
     private static Button currentButton;
+    private Button save;
 
 
-    Drug drug;
-    LocalDateTime startDate;
-    LocalDateTime endDate;
-    List<LocalTime> takingTime;
-    int intervalInDays;
+    private static Drug drug;
+    private static LocalDateTime startDate = LocalDateTime.now();
+    private static LocalDateTime endDate = null;
+    private static List<LocalTime> takingTime = new ArrayList<LocalTime>();
+    private static Integer intervalInDays = 1;
+
+    public void onClick(View v) {
+        if(drug != null && startDate != null && takingTime != null && takingTime.size() > 0
+                && intervalInDays != null && intervalInDays > 0) {
+            Course.createCourse(drug, startDate, endDate, takingTime, intervalInDays);
+            Toast.makeText(getBaseContext(), "Сохранено!", Toast.LENGTH_LONG).show();
+            this.finish();
+        }
+        else{
+            Toast.makeText(getBaseContext(), "Заполните все поля!", Toast.LENGTH_LONG).show();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +128,7 @@ public class AddCourseActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 Log.d("grol", s.toString());
+                takingTime = new ArrayList<LocalTime>();
                 time_container.removeAllViews();
                 LinearLayout.LayoutParams lParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -154,7 +170,11 @@ public class AddCourseActivity extends AppCompatActivity {
         }
         @Override
         public void onTimeSet(TimePicker view, int hours, int minute) {
-            currentButton.setText(new LocalTime(hours, minute).toString("HH:mm"));
+            LocalTime localTime = new LocalTime(hours, minute);
+            currentButton.setText(localTime.toString("HH:mm"));
+            if(!takingTime.contains(localTime)){
+                takingTime.add(localTime);
+            }
         }
 
     }
@@ -175,7 +195,9 @@ public class AddCourseActivity extends AppCompatActivity {
 
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            buttonStartDate.setText(new LocalDate(year,monthOfYear,dayOfMonth).toString("yyyy.MM.dd"));
+            LocalDateTime localDateTime = new LocalDateTime(year, monthOfYear, dayOfMonth, 0, 0);
+            buttonStartDate.setText(localDateTime.toString("yyyy.MM.dd"));
+            startDate = localDateTime;
         }
     }
 
@@ -195,7 +217,9 @@ public class AddCourseActivity extends AppCompatActivity {
 
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            buttonEndDate.setText(new LocalDate(year,monthOfYear,dayOfMonth).toString("yyyy.MM.dd"));
+            LocalDateTime localDateTime = new LocalDateTime(year, monthOfYear, dayOfMonth, 0, 0);
+            buttonEndDate.setText(localDateTime.toString("yyyy.MM.dd"));
+            endDate = localDateTime;
         }
     }
 }
