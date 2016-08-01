@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Pills Helper</string>
-    <string name="btn_add">Добавить</string>
+    <string name="btn_add">Сохранить</string>
+    <string name="number_per_day">раз(а) в день</string>
+    <string name="default_time">08:00</string>
     <string name="title_activity_navigation">NavigationActivity</string>
     <string name="drawer_item_course">Добавить новый курс лечения</string>
     <string name="drawer_item_current_course">Просмотреть текущий курс лечения</string>
@@ -145,6 +147,8 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
+    <string name="choose_time">выберите время приема</string>
+    <string name="ready">Готово</string>
 
 
 </resources>

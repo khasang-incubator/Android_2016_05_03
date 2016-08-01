@@ -19,7 +19,6 @@ import android.widget.ListView;
 import android.widget.ShareActionProvider;
 
 import com.khasang.pillshelper.fragments.AllCourseFragment;
-import com.khasang.pillshelper.fragments.NewCourseFragment;
 
 public class MainActivity extends Activity {
 
@@ -46,9 +45,6 @@ public class MainActivity extends Activity {
         currentPosition = position;
         android.support.v4.app.Fragment fragment;
         switch (position){
-            case 1:
-                fragment = new NewCourseFragment();
-                break;
             case 2:
                 fragment = new AllCourseFragment();
                 break;
