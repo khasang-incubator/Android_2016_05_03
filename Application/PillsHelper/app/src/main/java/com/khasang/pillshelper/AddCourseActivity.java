@@ -14,12 +14,14 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
+import com.khasang.pillshelper.db.PillsDBHelper;
+import com.khasang.pillshelper.db.model.Drug;
+
 import java.util.ArrayList;
 
 public class AddCourseActivity extends AppCompatActivity {
 
     private Context context;
-    private String[] words = {"Аспирин", "Аскорбин", "Спазмалгон", "Асмоапо", "Апосмо", "асмамооо", "аывпыавп", "Апекууаи", "Аквсмм", "апуцйфвва"};
     private AutoCompleteTextView autoCompleteTextView;
     private RadioGroup group;
     private Spinner spinner;
@@ -73,7 +75,7 @@ public class AddCourseActivity extends AppCompatActivity {
             }
         });
 
-        autoCompleteTextView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line,words));
+        autoCompleteTextView.setAdapter(new ArrayAdapter<Drug>(this, android.R.layout.simple_dropdown_item_1line, PillsDBHelper.getInstance().getAllDrugs()));
         autoCompleteTextView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

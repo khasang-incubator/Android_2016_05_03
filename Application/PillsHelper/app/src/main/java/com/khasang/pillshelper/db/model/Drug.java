@@ -121,4 +121,9 @@ public class Drug {
         this.id = id;
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return getName();
+    }
 }
